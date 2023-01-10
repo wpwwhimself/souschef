@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,16 @@ Route::get('/', function () {
 
 Route::controller(HomeController::class)->group(function(){
     Route::middleware("auth")->group(function(){
-        Route::get("/dashboard", "dashboard")->name("dashboard");
+        foreach([
+            "dashboard",
+            "ingredients",
+        ] as $name){
+            Route::get("/$name", $name)->name($name);
+        }
+        foreach([
+            "ingredients-add",
+        ] as $name){
+            Route::post("/$name", Str::camel($name))->name($name);
+        }
     });
 });
