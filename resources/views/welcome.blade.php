@@ -7,5 +7,4 @@
     <x-input type="password" name="password" label="Hasło" />
     <x-button action="submit" icon="forward" label="Potwierdź" />
 </form>
-{{ $errors }}
 @endsection

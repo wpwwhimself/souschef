@@ -8,5 +8,4 @@
     <x-input type="password" name="password_confirmation" label="Potwierdź hasło" />
     <x-button action="submit" icon="check" label="Nowe konto" />
 </form>
-{{ $errors }}
 @endsection
