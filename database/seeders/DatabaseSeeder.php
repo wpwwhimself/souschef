@@ -16,16 +16,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::insert([
-            [
-                "name" => "wpww",
-                "password" => Hash::make("kalafior")
-            ],
-            [
-                "name" => "julia",
-                "password" => Hash::make("marchewka")
-            ],
-        ]);
+        if(env("APP_ENV") == "local"){
+            User::insert([
+                [
+                    "name" => "kucharz1",
+                    "password" => Hash::make("kalafior")
+                ],
+                [
+                    "name" => "kucharz2",
+                    "password" => Hash::make("marchewka")
+                ],
+            ]);
+        }
+
         IngredientCategory::insert([
             ["name" => "❓nieokr."],
             ["name" => "🥛nabiał"],
