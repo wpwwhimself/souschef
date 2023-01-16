@@ -9,19 +9,19 @@
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>Nazwa składnika</th>
-                    <th>Jedn.</th>
                     <th>Kategoria</th>
+                    <th>#</th>
+                    <th>Jedn.</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($templates as $template)
                 <tr>
-                    <td>{{ $template->id }}</td>
                     <td>{{ $template->name }}</td>
-                    <td>{{ $template->unit }}</td>
                     <td>{{ $template->category->name }}</td>
+                    <td>{{ $template->id }}</td>
+                    <td>{{ $template->unit }}</td>
                 </tr>
                 @empty
                 <tr>

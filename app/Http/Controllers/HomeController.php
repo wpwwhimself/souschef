@@ -16,7 +16,7 @@ class HomeController extends Controller
     }
 
     public function ingredientTemplates(){
-        $templates = IngredientTemplate::all();
+        $templates = IngredientTemplate::orderBy("name")->get();
         $categories = IngredientCategory::all()->pluck("name", "id")->toArray();
 
         return view("templates", array_merge(
@@ -35,10 +35,10 @@ class HomeController extends Controller
 
     public function ingredients(){
         $cupboard = Ingredient::whereHas("template", function($q){
-            return $q->whereIn("ingredient_category_id", [1, 6, 7, 8]);
+            return $q->whereIn("ingredient_category_id", [1, 7, 8]);
         })->get();
         $fridge = Ingredient::whereHas("template", function($q){
-            return $q->whereIn("ingredient_category_id", [2, 3, 4, 5, 9, 10]);
+            return $q->whereIn("ingredient_category_id", [2, 3, 4, 5, 6, 9, 10]);
         })->get();
 
         $templates = IngredientTemplate::orderBy("name")->get()->pluck("name", "id")->toArray();
@@ -50,7 +50,7 @@ class HomeController extends Controller
     }
     public function ingredientAdd(Request $rq){
         $target = Ingredient::where([
-            "ingredient_id" => $rq->ingredient_id,
+            "ingredient_template_id" => $rq->ingredient_template_id,
             "expiration_date" => $rq->expiration_date,
         ])->first();
         if(!empty($target)){
@@ -58,7 +58,7 @@ class HomeController extends Controller
             $target->save();
         }else{
             Ingredient::create([
-                "ingredient_id" => $rq->ingredient_id,
+                "ingredient_template_id" => $rq->ingredient_template_id,
                 "amount" => $rq->amount,
                 "expiration_date" => $rq->expiration_date,
             ]);

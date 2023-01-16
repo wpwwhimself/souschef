@@ -59,11 +59,11 @@
         @csrf
         <h2>Dodaj składnik</h2>
         <div class="flex-right">
-            <x-select name="ingredient_id" label="Składnik" :options="$templates" />
-            <x-input type="number" name="amount" label="Ilość" placeholder="" />
+            <x-select name="ingredient_template_id" label="Składnik" :options="$templates" />
+            <x-input type="number" name="amount" label="Ilość" placeholder="" step="0.01" />
             <script>
             function ingredient_unit(){
-                const ing_id = $("#ingredient_id").val();
+                const ing_id = $("#ingredient_template_id").val();
                 $.ajax({
                     type: "get",
                     url: "{{ route('ajax_ingredient_unit') }}",
@@ -78,7 +78,7 @@
             }
             $(document).ready(function(){
                 ingredient_unit();
-                $("#ingredient_id").change(function(){ ingredient_unit(); });
+                $("#ingredient_template_id").change(function(){ ingredient_unit(); });
             });
             </script>
             <x-input type="date" name="expiration_date" label="Termin ważności" />

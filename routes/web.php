@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Models\Ingredient;
+use App\Models\IngredientTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -40,5 +40,5 @@ Route::controller(HomeController::class)->group(function(){
  * AJAX things
  */
 Route::get("/ajax/ingredient_unit", function(Request $rq){
-    return Ingredient::find($rq->ing_id)->unit;
+    return IngredientTemplate::find($rq->ing_id)->unit;
 })->name("ajax_ingredient_unit");

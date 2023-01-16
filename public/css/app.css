@@ -381,6 +381,9 @@ form .flex-right{
         flex-wrap: wrap;
         justify-content: center;
     }
+    .grid-2{
+        display:block;
+    }
 }
 
 @media screen and (max-width: 600px){
