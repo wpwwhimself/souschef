@@ -10,14 +10,13 @@ class Ingredient extends Model
     use HasFactory;
 
     protected $fillable = [
-        "name", "unit", "ingredient_category_id",
+        "ingredient_template_id",
+        "amount",
+        "expiration_date",
     ];
-    public $timestamps = false;
+    protected $dates = ["expiration_date"];
 
-    public function category(){
-        return $this->belongsTo(IngredientCategory::class, 'ingredient_category_id');
-    }
-    public function positions(){
-        return $this->hasMany(IngredientPosition::class);
+    public function template(){
+        return $this->belongsTo(IngredientTemplate::class, "ingredient_template_id");
     }
 }

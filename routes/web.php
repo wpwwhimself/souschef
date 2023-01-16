@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Models\Ingredient;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -24,15 +26,19 @@ Route::controller(HomeController::class)->group(function(){
         foreach([
             "dashboard",
             "ingredients",
-            "positions",
         ] as $name){
             Route::get("/$name", $name)->name($name);
         }
-        foreach([
-            "ingredients-add",
-            "positions-add",
-        ] as $name){
-            Route::post("/$name", Str::camel($name))->name($name);
-        }
+        Route::post("/ingredients/add", "ingredientAdd")->name("ingredient-add");
+
+        Route::get("/ingredients/templates", "ingredientTemplates")->name("ingredient-templates");
+        Route::post("/ingredients/templates/add", "ingredientTemplateAdd")->name("ingredient-template-add");
     });
 });
+
+/**
+ * AJAX things
+ */
+Route::get("/ajax/ingredient_unit", function(Request $rq){
+    return Ingredient::find($rq->ing_id)->unit;
+})->name("ajax_ingredient_unit");

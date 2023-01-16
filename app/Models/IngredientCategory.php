@@ -16,7 +16,7 @@ class IngredientCategory extends Model
         "name",
     ];
 
-    public function ingredients(){
-        return $this->hasMany(Ingredient::class);
+    public function templates(){
+        return $this->hasMany(IngredientTemplate::class);
     }
 }

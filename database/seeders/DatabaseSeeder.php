@@ -30,16 +30,17 @@ class DatabaseSeeder extends Seeder
         }
 
         IngredientCategory::insert([
-            ["name" => "❓nieokr."],
-            ["name" => "🥛nabiał"],
-            ["name" => "🥬warzywa"],
-            ["name" => "🍏owoce"],
-            ["name" => "🧊mrożonki"],
-            ["name" => "🫙sosy"],
-            ["name" => "🍝makarony"],
-            ["name" => "🧂przyprawy"],
-            ["name" => "🍖mięso"],
-            ["name" => "🐟ryby"],
+            ["name" => "nieokr.❓"],
+            ["name" => "nabiał🥛"],
+            ["name" => "warzywa🥬"],
+            ["name" => "owoce🍏"],
+            ["name" => "mrożonki🧊"],
+            ["name" => "sosy🫙"],
+            ["name" => "makarony🍝"],
+            ["name" => "przyprawy🧂"],
+            ["name" => "mięso🍖"],
+            ["name" => "ryby🐟"],
+            ["name" => "pieczywo🍞"],
         ]);
     }
 }
