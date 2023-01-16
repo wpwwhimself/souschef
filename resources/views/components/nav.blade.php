@@ -10,7 +10,8 @@
 
     @auth
     <a href="{{ route("dashboard") }}"><li><i class="fa-solid fa-house-chimney-user"></i> Pulpit</li></a>
-    <a href="{{ route("ingredients") }}"><li><i class="fa-solid fa-table"></i> Składniki</li></a>
+    <a href="{{ route("positions") }}"><li><i class="fa-solid fa-jar"></i> Składniki</li></a>
+    <a href="{{ route("ingredients") }}"><li><i class="fa-solid fa-clipboard"></i> Wzorce</li></a>
 
     <a
         href="{{ route("logout") }}"

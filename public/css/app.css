@@ -368,6 +368,12 @@ footer .contact-info{
     margin-right: auto;
 }
 
+/********************************************/
+
+form .flex-right{
+    justify-content: center;
+}
+
 /************************MOBILITY**************/
 @media screen and (max-width: 960px){
     .grid-3{

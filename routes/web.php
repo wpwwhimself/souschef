@@ -24,11 +24,13 @@ Route::controller(HomeController::class)->group(function(){
         foreach([
             "dashboard",
             "ingredients",
+            "positions",
         ] as $name){
             Route::get("/$name", $name)->name($name);
         }
         foreach([
             "ingredients-add",
+            "positions-add",
         ] as $name){
             Route::post("/$name", Str::camel($name))->name($name);
         }

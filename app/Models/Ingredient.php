@@ -10,6 +10,14 @@ class Ingredient extends Model
     use HasFactory;
 
     protected $fillable = [
-        "name", "amount", "unit",
+        "name", "unit", "ingredient_category_id",
     ];
+    public $timestamps = false;
+
+    public function category(){
+        return $this->belongsTo(IngredientCategory::class, 'ingredient_category_id');
+    }
+    public function positions(){
+        return $this->hasMany(IngredientPosition::class);
+    }
 }
