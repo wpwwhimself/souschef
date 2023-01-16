@@ -24,7 +24,7 @@ Route::get('/', function () {
 Route::controller(HomeController::class)->group(function(){
     Route::middleware("auth")->group(function(){
         foreach([
-            "dashboard",
+            "home",
             "ingredients",
         ] as $name){
             Route::get("/$name", $name)->name($name);
