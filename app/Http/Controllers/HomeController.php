@@ -30,7 +30,7 @@ class HomeController extends Controller
             "unit" => $rq->unit ?? "JNO",
             "ingredient_category_id" => $rq->ingredient_category_id,
         ]);
-        return back()->with("success", "Dodano składnik");
+        return redirect()->route("ingredients")->with("success", "Dodano wzorzec");
     }
 
     public function ingredients(){
