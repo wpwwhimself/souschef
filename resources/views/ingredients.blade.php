@@ -27,7 +27,7 @@
             </thead>
             <tbody>
                 @forelse ($s_positions as $position)
-                <tr>
+                <tr m-id="{{ $position->template->id }}" m-exp="{{ $position->expiration_date?->format('Y-m-d') }}">
                     <td>{{ $position->template->name }}</td>
                     <td>{{ $position->template->category->name }}</td>
                     <td>{{ $position->amount }} {{ $position->template->unit }}</td>
@@ -50,6 +50,15 @@
                 @endforelse
             </tbody>
         </table>
+        <script>
+        $(document).ready(function(){
+            $("tr").click(function(){
+                const [id, exp] = [$(this).attr("m-id"), $(this).attr("m-exp")];
+                $("#ingredient_template_id").val(id);
+                $("#expiration_date").val(exp);
+            });
+        });
+        </script>
     </section>
     @endforeach
 </div>
@@ -61,6 +70,7 @@
         <div class="flex-right">
             <x-select name="ingredient_template_id" label="Składnik" :options="$templates" />
             <x-input type="number" name="amount" label="Ilość" placeholder="" step="0.01" />
+            <x-input type="date" name="expiration_date" label="Termin ważności" />
             <script>
             function ingredient_unit(){
                 const ing_id = $("#ingredient_template_id").val();
@@ -81,7 +91,6 @@
                 $("#ingredient_template_id").change(function(){ ingredient_unit(); });
             });
             </script>
-            <x-input type="date" name="expiration_date" label="Termin ważności" />
         </div>
         <x-button action="submit" icon="plus" label="Dodaj" />
     </form>

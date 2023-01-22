@@ -56,6 +56,7 @@ class HomeController extends Controller
         if(!empty($target)){
             $target->amount += $rq->amount;
             $target->save();
+            if($target->amount <= 0) $target->delete();
         }else{
             Ingredient::create([
                 "ingredient_template_id" => $rq->ingredient_template_id,
