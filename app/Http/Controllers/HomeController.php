@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function home(){
+    public function dashboard(){
         return view("dashboard", array_merge(
             ["title" => "Kuchnia"]
         ));
