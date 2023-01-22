@@ -35,7 +35,7 @@
                     </td>
                     @if (!$position->expiration_date)
                     <td class="ghost">
-                    @elseif ($position->expiration_date->lte(now()))
+                    @elseif ($position->expiration_date?->lte(now()))
                     <td class="error">
                     @else
                     <td>

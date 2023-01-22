@@ -14,7 +14,7 @@
         </div>
         <ul>
             @foreach ($shopping_list as $item)
-            <li @if ($item->expiration_date->lt(now())) class="ghost" @endif >
+            <li @if ($item->expiration_date?->lt(now())) class="ghost" @endif >
                 {{ $item->template->name }}
             </li>
             @endforeach
