@@ -12,11 +12,16 @@ class HomeController extends Controller
 {
     public function dashboard(){
         $shopping_list = Ingredient::with("template")
-            ->whereRelation("template", "minimum_amount", ">", DB::raw("ingredients.amount"))->get();
+            ->whereRelation("template", "minimum_amount", ">", DB::raw("ingredients.amount"))
+            ->orWhereDate("expiration_date", "<", today())
+            ->get();
+        $spoiled = Ingredient::whereDate("expiration_date", "<", today())
+            ->orderBy("expiration_date")
+            ->get();
 
         return view("dashboard", array_merge(
             ["title" => "Kuchnia"],
-            compact("shopping_list")
+            compact("shopping_list", "spoiled")
         ));
     }
 
