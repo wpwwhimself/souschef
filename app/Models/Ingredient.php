@@ -17,6 +17,7 @@ class Ingredient extends Model
     protected $dates = ["expiration_date"];
 
     public function template(){
-        return $this->belongsTo(IngredientTemplate::class, "ingredient_template_id");
+        return $this->belongsTo(IngredientTemplate::class, "ingredient_template_id")
+            ->orderBy("name");
     }
 }

@@ -4,15 +4,19 @@
 
 <div class="grid-2">
     <section>
-        <p>Poniżej znajduje się lista składników, z których można przygotowywać przepisy. Są to etykiety dla pozycji, które znajdują się w lodówce.
+        <p>
+            Poniżej znajduje się lista składników,
+            z których można przygotowywać przepisy.
+            Są to etykiety dla pozycji,
+            które znajdują się w lodówce i szafce.
+        </p>
 
         <table>
             <thead>
                 <tr>
                     <th>Nazwa składnika</th>
                     <th>Kategoria</th>
-                    <th>#</th>
-                    <th>Jedn.</th>
+                    <th @popper(Minimalna ilość)>Min.</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,8 +24,9 @@
                 <tr>
                     <td>{{ $template->name }}</td>
                     <td>{{ $template->category->name }}</td>
-                    <td>{{ $template->id }}</td>
-                    <td>{{ $template->unit }}</td>
+                    <td @unless ($template->minimum_amount) class="ghost" @endunless >
+                        {{ $template->minimum_amount }} {{ $template->unit }}
+                    </td>
                 </tr>
                 @empty
                 <tr>
@@ -40,7 +45,8 @@
             <h2>Dodaj wzorzec</h2>
             <div class="flex-right">
                 <x-input type="text" name="name" label="Nazwa" autofocus />
-                <x-input type="text" name="unit" label="Jedn." placeholder="JNO" />
+                <x-input type="number" name="minimum_amount" label="Minimalna ilość" placeholder="0" step="0.01" />
+                <x-input type="text" name="unit" label="Jednostka" placeholder="JNO" />
                 <x-select name="ingredient_category_id" label="Kategoria" :options="$categories" />
             </div>
             <x-button action="submit" icon="plus" label="Dodaj" />

@@ -30,7 +30,9 @@
                 <tr m-id="{{ $position->template->id }}" m-exp="{{ $position->expiration_date?->format('Y-m-d') }}">
                     <td>{{ $position->template->name }}</td>
                     <td>{{ $position->template->category->name }}</td>
-                    <td>{{ $position->amount }} {{ $position->template->unit }}</td>
+                    <td @if ($position->amount < $position->template->minimum_amount) class="error" @endif>
+                        {{ $position->amount }} {{ $position->template->unit }}
+                    </td>
                     @if (!$position->expiration_date)
                     <td class="ghost">
                     @elseif ($position->expiration_date->lte(now()))

@@ -6,12 +6,17 @@ use App\Models\Ingredient;
 use App\Models\IngredientCategory;
 use App\Models\IngredientTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function dashboard(){
+        $shopping_list = Ingredient::with("template")
+            ->whereRelation("template", "minimum_amount", ">", DB::raw("ingredients.amount"))->get();
+
         return view("dashboard", array_merge(
-            ["title" => "Kuchnia"]
+            ["title" => "Kuchnia"],
+            compact("shopping_list")
         ));
     }
 
@@ -30,7 +35,8 @@ class HomeController extends Controller
             "unit" => $rq->unit ?? "JNO",
             "ingredient_category_id" => $rq->ingredient_category_id,
         ]);
-        return back()->with("success", "Dodano składnik");
+        return redirect()->route("ingredients
+        ")->with("success", "Dodano składnik");
     }
 
     public function ingredients(){
