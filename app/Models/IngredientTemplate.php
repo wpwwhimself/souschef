@@ -10,7 +10,7 @@ class IngredientTemplate extends Model
     use HasFactory;
 
     protected $fillable = [
-        "name", "unit", "ingredient_category_id",
+        "name", "minimum_amount", "unit", "ingredient_category_id",
     ];
     public $timestamps = false;
 
