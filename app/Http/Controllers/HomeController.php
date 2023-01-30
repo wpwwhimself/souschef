@@ -6,15 +6,20 @@ use App\Models\Ingredient;
 use App\Models\IngredientCategory;
 use App\Models\IngredientTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function dashboard(){
-        $shopping_list = Ingredient::with("template")
-            ->whereRelation("template", "minimum_amount", ">", DB::raw("ingredients.amount"))
-            ->orWhereDate("expiration_date", "<", today())
+        $ingredients_count = Ingredient::groupBy("id")
+            ->selectRaw("sum(amount) as sum, id")
+            ->pluck("sum", "id");
+        $shopping_list = IngredientTemplate::withSum("positions", "amount")
             ->get();
+        $shopping_list = $shopping_list->filter(function ($x) {
+            return $x->minimum_amount > $x->positions_sum_amount;
+        });
         $spoiled = Ingredient::whereDate("expiration_date", "<", today())
             ->orderBy("expiration_date")
             ->get();
