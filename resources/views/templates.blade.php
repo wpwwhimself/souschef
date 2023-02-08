@@ -25,7 +25,11 @@
                     <td>{{ $template->name }}</td>
                     <td>{{ $template->category->name }}</td>
                     <td @unless ($template->minimum_amount) class="ghost" @endunless >
+                        @if($template->minimum_amount === null)
+                        bd.
+                        @else
                         {{ $template->minimum_amount }} {{ $template->unit }}
+                        @endif
                     </td>
                 </tr>
                 @empty
@@ -45,7 +49,7 @@
             <h2>Dodaj wzorzec</h2>
             <div class="flex-right">
                 <x-input type="text" name="name" label="Nazwa" autofocus />
-                <x-input type="number" name="minimum_amount" label="Minimalna ilość" placeholder="0" step="0.01" />
+                <x-input type="number" name="minimum_amount" label="Minimalna ilość" step="0.01" />
                 <x-input type="text" name="unit" label="Jednostka" placeholder="JNO" />
                 <x-select name="ingredient_category_id" label="Kategoria" :options="$categories" />
             </div>
