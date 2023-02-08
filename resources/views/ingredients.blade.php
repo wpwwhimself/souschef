@@ -97,7 +97,44 @@
         </div>
         <x-button action="submit" icon="plus" label="Dodaj" />
     </form>
+    <x-a href="{{ route('ingredient-templates') }}">Lista wzorców</x-a>
 </section>
-<x-a href="{{ route('ingredient-templates') }}">Lista wzorców</x-a>
+
+<div class="grid-2">
+    <section>
+        <div class="section-header">
+            <h1>
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                Ostatnie zmiany
+            </h1>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Składnik</th>
+                    <th>Zmiana</th>
+                </tr>
+            </thead>
+            <tbody>
+            @php $date = "" @endphp
+            @foreach ($changes as $change)
+                @if($date != $change->date)
+                    @php $date = $change->date @endphp
+                <tr>
+                    <td colspan=2 class="ghost">
+                        {{ $change->date->format("d.m") }} – {{ $change->date->diffForHumans() }}
+                    </td>
+                </tr>
+                @endif
+                <tr>
+                    <td>{{ $change->template->name }}</td>
+                    <td class="{{ $change->amount > 0 ? 'success' : 'error' }}">{{ sprintf("%+d", $change->amount) }} {{ $change->template->unit }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </section>
+</div>
 
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
 use App\Models\IngredientCategory;
+use App\Models\IngredientsChange;
 use App\Models\IngredientTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -59,9 +60,11 @@ class HomeController extends Controller
 
         $templates = IngredientTemplate::orderBy("name")->get()->pluck("name", "id")->toArray();
 
+        $changes = IngredientsChange::orderByDesc("id")->limit(10)->get();
+
         return view("ingredients", array_merge(
             ["title" => "Co mamy pod ręką?"],
-            compact("cupboard", "fridge", "templates")
+            compact("cupboard", "fridge", "templates", "changes")
         ));
     }
     public function ingredientAdd(Request $rq){
@@ -80,6 +83,12 @@ class HomeController extends Controller
                 "expiration_date" => $rq->expiration_date,
             ]);
         }
+
+        IngredientsChange::create([
+            "ingredient_template_id" => $rq->ingredient_template_id,
+            "amount" => $rq->amount,
+        ]);
+
         return back()->with("success", "Dodano składnik");
     }
 }
