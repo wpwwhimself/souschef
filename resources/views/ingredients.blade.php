@@ -58,6 +58,7 @@
                 const [id, exp] = [$(this).attr("m-id"), $(this).attr("m-exp")];
                 $("#ingredient_template_id").val(id);
                 $("#expiration_date").val(exp);
+                $("#amount").focus();
             });
         });
         </script>
