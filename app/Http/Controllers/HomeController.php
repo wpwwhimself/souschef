@@ -4,17 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
 use App\Models\IngredientCategory;
+use App\Models\IngredientsChange;
 use App\Models\IngredientTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function dashboard(){
-        $shopping_list = Ingredient::with("template")
-            ->whereRelation("template", "minimum_amount", ">", DB::raw("ingredients.amount"))
-            ->orWhereDate("expiration_date", "<", today())
+        $ingredients_count = Ingredient::groupBy("id")
+            ->selectRaw("sum(amount) as sum, id")
+            ->pluck("sum", "id");
+        $shopping_list = IngredientTemplate::withSum("positions", "amount")
             ->get();
+        $shopping_list = $shopping_list->filter(function ($x) {
+            return $x->minimum_amount > $x->positions_sum_amount;
+        });
         $spoiled = Ingredient::whereDate("expiration_date", "<", today())
             ->orderBy("expiration_date")
             ->get();
@@ -37,6 +43,7 @@ class HomeController extends Controller
     public function ingredientTemplateAdd(Request $rq){
         IngredientTemplate::create([
             "name" => $rq->name,
+            "minimum_amount" => $rq->minimum_amount,
             "unit" => $rq->unit ?? "JNO",
             "ingredient_category_id" => $rq->ingredient_category_id,
         ]);
@@ -53,9 +60,11 @@ class HomeController extends Controller
 
         $templates = IngredientTemplate::orderBy("name")->get()->pluck("name", "id")->toArray();
 
+        $changes = IngredientsChange::orderByDesc("id")->limit(10)->get();
+
         return view("ingredients", array_merge(
             ["title" => "Co mamy pod ręką?"],
-            compact("cupboard", "fridge", "templates")
+            compact("cupboard", "fridge", "templates", "changes")
         ));
     }
     public function ingredientAdd(Request $rq){
@@ -74,6 +83,12 @@ class HomeController extends Controller
                 "expiration_date" => $rq->expiration_date,
             ]);
         }
+
+        IngredientsChange::create([
+            "ingredient_template_id" => $rq->ingredient_template_id,
+            "amount" => $rq->amount,
+        ]);
+
         return back()->with("success", "Dodano składnik");
     }
 }
