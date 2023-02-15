@@ -129,7 +129,9 @@
                 @endif
                 <tr>
                     <td>{{ $change->template->name }}</td>
-                    <td class="{{ $change->amount > 0 ? 'success' : 'error' }}">{{ sprintf("%+d", $change->amount) }} {{ $change->template->unit }}</td>
+                    <td class="{{ $change->amount > 0 ? 'success' : 'error' }}">
+                        {{ $change->amount < 0 ? $change->amount : "+".$change->amount }} {{ $change->template->unit }}
+                    </td>
                 </tr>
             @endforeach
             </tbody>
