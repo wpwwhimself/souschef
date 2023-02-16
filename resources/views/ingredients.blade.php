@@ -27,7 +27,7 @@
             </thead>
             <tbody>
                 @forelse ($s_positions as $position)
-                <tr m-id="{{ $position->template->id }}" m-exp="{{ $position->expiration_date?->format('Y-m-d') }}">
+                <tr class="clickable" m-id="{{ $position->template->id }}" m-exp="{{ $position->expiration_date?->format('Y-m-d') }}">
                     <td>{{ $position->template->name }}</td>
                     <td>{{ $position->template->category->name }}</td>
                     <td @if ($position->amount < $position->template->minimum_amount) class="error" @endif>
@@ -37,6 +37,8 @@
                     <td class="ghost">
                     @elseif ($position->expiration_date?->lte(now()))
                     <td class="error">
+                    @elseif ($position->expiration_date?->lte(now()->addDays(2)))
+                    <td class="warning">
                     @else
                     <td>
                     @endif
