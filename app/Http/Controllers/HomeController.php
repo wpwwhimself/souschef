@@ -7,8 +7,6 @@ use App\Models\IngredientCategory;
 use App\Models\IngredientsChange;
 use App\Models\IngredientTemplate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {

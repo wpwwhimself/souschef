@@ -374,6 +374,14 @@ form .flex-right{
     justify-content: center;
 }
 
+/********************************************/
+
+#recipe-ingredients>div{
+    display: grid;
+    grid-template-columns: 5em auto;
+    gap: 0.5em 0.5em;
+}
+
 /************************MOBILITY**************/
 @media screen and (max-width: 960px){
     .grid-3{
