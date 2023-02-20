@@ -141,6 +141,10 @@ a{
 a:hover{
     color: var(--acc);
 }
+.clickable{
+    user-select: none;
+    cursor: pointer;
+}
 
 /* FORM */
 .login-box{
@@ -261,6 +265,10 @@ input[type="checkbox"]{
     --clr-wh: rgba(var(--danger), 0.4);
     color: rgb(var(--danger));
 }
+.warning{
+    --clr-wh: rgba(var(--warning), 0.4);
+    color: rgb(var(--warning));
+}
 .alert.success, .alert.error{
     border-color: currentColor;
     background-color: var(--bg1);
@@ -372,6 +380,12 @@ footer .contact-info{
 
 form .flex-right{
     justify-content: center;
+}
+
+.ingredient-category{
+    padding-left: 1em;
+    color: var(--acc);
+    background-color: var(--bg1);
 }
 
 /********************************************/
