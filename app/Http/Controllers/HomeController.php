@@ -53,10 +53,20 @@ class HomeController extends Controller
     public function ingredients(){
         $cupboard = Ingredient::whereHas("template", function($q){
             return $q->whereIn("ingredient_category_id", [1, 7, 8]);
-        })->get();
+        })
+            ->join("ingredient_templates", "ingredients.ingredient_template_id", "ingredient_templates.id")
+            ->orderBy("ingredient_category_id")
+            ->orderBy("name")
+            ->orderByDesc("amount")
+            ->get();
         $fridge = Ingredient::whereHas("template", function($q){
             return $q->whereIn("ingredient_category_id", [2, 3, 4, 5, 6, 9, 10]);
-        })->get();
+        })
+            ->join("ingredient_templates", "ingredients.ingredient_template_id", "ingredient_templates.id")
+            ->orderBy("ingredient_category_id")
+            ->orderBy("name")
+            ->orderByDesc("amount")
+            ->get();
 
         $templates = IngredientTemplate::orderBy("name")->get()->pluck("name", "id")->toArray();
 
