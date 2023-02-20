@@ -6,7 +6,7 @@
     @foreach ([
         ["Szafka", "sack-xmark", $cupboard],
         ["Lodówka", "cube", $fridge],
-    ] as [$s_name, $s_icon, $s_positions])
+    ] as [$s_name, $s_icon, $s_categories])
     <section>
         <div class="section-header">
             <h1>
@@ -20,31 +20,36 @@
             <thead>
                 <tr>
                     <th>Nazwa składnika</th>
-                    <th>Kategoria</th>
                     <th>Ilość</th>
                     <th>Ważność</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($s_positions as $position)
-                <tr class="clickable" m-id="{{ $position->template->id }}" m-exp="{{ $position->expiration_date?->format('Y-m-d') }}">
-                    <td>{{ $position->template->name }}</td>
-                    <td>{{ $position->template->category->name }}</td>
-                    <td @if ($position->amount < $position->template->minimum_amount) class="error" @endif>
-                        {{ $position->amount }} {{ $position->template->unit }}
-                    </td>
-                    @if (!$position->expiration_date)
-                    <td class="ghost">
-                    @elseif ($position->expiration_date?->lte(now()))
-                    <td class="error">
-                    @elseif ($position->expiration_date?->lte(now()->addDays(2)))
-                    <td class="warning">
-                    @else
-                    <td>
-                    @endif
-                        {{ $position->expiration_date?->diffForHumans() ?? "brak" }}
+                @forelse ($s_categories as $key => $s_positions)
+                <tr>
+                    <td colspan=3 class="ingredient-category">
+                        {{ $categories[$key] }}
                     </td>
                 </tr>
+                    @foreach ($s_positions as $position)
+                    <tr class="clickable" m-id="{{ $position->template->id }}" m-exp="{{ $position->expiration_date?->format('Y-m-d') }}">
+                        <td>{{ $position->template->name }}</td>
+                        <td @if ($position->amount < $position->template->minimum_amount) class="error" @endif>
+                            {{ $position->amount }} {{ $position->template->unit }}
+                        </td>
+                        @if (!$position->expiration_date)
+                        <td class="ghost">
+                        @elseif ($position->expiration_date?->lte(now()))
+                        <td class="error">
+                        @elseif ($position->expiration_date?->lte(now()->addDays(2)))
+                        <td class="warning">
+                        @else
+                        <td>
+                        @endif
+                            {{ $position->expiration_date?->diffForHumans() ?? "brak" }}
+                        </td>
+                    </tr>
+                    @endforeach
                 @empty
                 <tr>
                     <td class="grayed-out" colspan=4>
@@ -56,7 +61,7 @@
         </table>
         <script>
         $(document).ready(function(){
-            $("tr").click(function(){
+            $("tr.clickable").click(function(){
                 const [id, exp] = [$(this).attr("m-id"), $(this).attr("m-exp")];
                 $("#ingredient_template_id").val(id);
                 $("#expiration_date").val(exp);

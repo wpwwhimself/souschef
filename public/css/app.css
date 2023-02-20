@@ -382,6 +382,12 @@ form .flex-right{
     justify-content: center;
 }
 
+.ingredient-category{
+    padding-left: 1em;
+    color: var(--acc);
+    background-color: var(--bg1);
+}
+
 /************************MOBILITY**************/
 @media screen and (max-width: 960px){
     .grid-3{

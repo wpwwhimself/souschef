@@ -51,22 +51,25 @@ class HomeController extends Controller
     }
 
     public function ingredients(){
-        $cupboard = Ingredient::whereHas("template", function($q){
+        $cupboard_raw = Ingredient::whereHas("template", function($q){
             return $q->whereIn("ingredient_category_id", [1, 7, 8]);
         })
             ->join("ingredient_templates", "ingredients.ingredient_template_id", "ingredient_templates.id")
-            ->orderBy("ingredient_category_id")
             ->orderBy("name")
             ->orderByDesc("amount")
             ->get();
-        $fridge = Ingredient::whereHas("template", function($q){
+        $fridge_raw = Ingredient::whereHas("template", function($q){
             return $q->whereIn("ingredient_category_id", [2, 3, 4, 5, 6, 9, 10]);
         })
             ->join("ingredient_templates", "ingredients.ingredient_template_id", "ingredient_templates.id")
-            ->orderBy("ingredient_category_id")
             ->orderBy("name")
             ->orderByDesc("amount")
             ->get();
+
+        $cupboard = []; $fridge = [];
+        foreach($cupboard_raw as $ingredient){ $cupboard[$ingredient->ingredient_category_id][] = $ingredient; }
+        foreach($fridge_raw as $ingredient){ $fridge[$ingredient->ingredient_category_id][] = $ingredient; }
+        $categories = IngredientCategory::all()->pluck("name", "id");
 
         $templates = IngredientTemplate::orderBy("name")->get()->pluck("name", "id")->toArray();
 
@@ -74,7 +77,7 @@ class HomeController extends Controller
 
         return view("ingredients", array_merge(
             ["title" => "Co mamy pod ręką?"],
-            compact("cupboard", "fridge", "templates", "changes")
+            compact("cupboard", "fridge", "templates", "changes", "categories")
         ));
     }
     public function ingredientAdd(Request $rq){
