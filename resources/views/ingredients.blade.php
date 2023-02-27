@@ -32,7 +32,12 @@
                     </td>
                 </tr>
                     @foreach ($s_positions as $position)
-                    <tr class="clickable" m-id="{{ $position->template->id }}" m-exp="{{ $position->expiration_date?->format('Y-m-d') }}">
+                    <tr
+                        class="clickable"
+                        m-id="{{ $position->template->id }}"
+                        m-exp="{{ $position->expiration_date?->format('Y-m-d') }}"
+                        m-unit="{{ $position->template->unit }}"
+                        >
                         <td>{{ $position->template->name }}</td>
                         <td @if ($position->amount < $position->template->minimum_amount) class="error" @endif>
                             {{ $position->amount }} {{ $position->template->unit }}
@@ -62,9 +67,10 @@
         <script>
         $(document).ready(function(){
             $("tr.clickable").click(function(){
-                const [id, exp] = [$(this).attr("m-id"), $(this).attr("m-exp")];
+                const [id, exp, unit] = [$(this).attr("m-id"), $(this).attr("m-exp"), $(this).attr("m-unit")];
                 $("#ingredient_template_id").val(id);
                 $("#expiration_date").val(exp);
+                $("#amount").attr("placeholder", unit);
                 $("#amount").focus();
             });
         });
