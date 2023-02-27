@@ -22,21 +22,26 @@
             </thead>
             <tbody>
                 @foreach ($recipe->ingredients as $i)
-                <tr>
+                <tr @if($available[$i->ingredient_template_id] < $i->amount) class="error" @endif>
                     <td>{{ $i->template->name }}</td>
                     <td>{{ $i->template->category->name }}</td>
                     <td>
                         <input
                             type="number"
-                            name="" value="{{ $i->amount }}"
+                            name="{{ $i->ingredient_template_id }}" value="{{ $i->amount }}"
                             />
+                        / {{ $available[$i->ingredient_template_id] }}
                         {{ $i->template->unit }}
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        @if ($can_cook_recipe)
         <x-button action="submit" icon="check" label="Ugotuj z powyższych" />
+        @else
+        <h2 class="grayed-out">Niewystarczająca ilość składników</h2>
+        @endif
     </form>
 
 </section>

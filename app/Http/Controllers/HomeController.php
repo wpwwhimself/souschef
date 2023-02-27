@@ -17,7 +17,7 @@ class HomeController extends Controller
         $shopping_list = IngredientTemplate::withSum("positions", "amount")
             ->get();
         $shopping_list = $shopping_list->filter(function ($x) {
-            return $x->minimum_amount > $x->positions_sum_amount;
+            return ($x->minimum_amount > $x->positions_sum_amount) && ($x->minimum_amount !== null);
         });
         $spoiled = Ingredient::whereDate("expiration_date", "<", today()->addDays(3))
             ->orderBy("expiration_date")
@@ -86,7 +86,7 @@ class HomeController extends Controller
         if(!empty($target)){
             $target->amount += $rq->amount;
             $target->save();
-            if($target->amount <= 0) $target->delete();
+            $this->ingredientsCleanup();
         }else{
             Ingredient::create([
                 "ingredient_template_id" => $rq->ingredient_template_id,
@@ -101,5 +101,9 @@ class HomeController extends Controller
         ]);
 
         return back()->with("success", "Dodano składnik");
+    }
+
+    public function ingredientsCleanup(){
+        Ingredient::where("amount", "<=", 0)->delete();
     }
 }
