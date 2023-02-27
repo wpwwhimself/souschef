@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ingredient;
 use App\Models\IngredientTemplate;
 use App\Models\Recipe;
 use App\Models\RecipePosition;
@@ -19,7 +20,12 @@ class RecipeController extends Controller
     }
 
     function recipe($recipe_id){
+        $recipe = Recipe::findOrFail($recipe_id);
 
+        return view("recipe", array_merge(
+            ["title" => "Przepis na $recipe->name"],
+            compact("recipe")
+        ));
     }
 
     function add(){
@@ -59,5 +65,9 @@ class RecipeController extends Controller
         );
 
         return redirect()->route("recipes")->with("success", "Przepis dodany");
+    }
+
+    public function clear($recipe_id, Request $rq){
+        //TODO uzupełnić odbijanie przepisu
     }
 }

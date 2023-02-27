@@ -19,4 +19,7 @@ class RecipePosition extends Model
     public function recipe(){
         return $this->belongsTo(Recipe::class);
     }
+    public function template(){
+        return $this->belongsTo(IngredientTemplate::class, "ingredient_template_id");
+    }
 }
