@@ -19,7 +19,7 @@ class HomeController extends Controller
         $shopping_list = $shopping_list->filter(function ($x) {
             return $x->minimum_amount > $x->positions_sum_amount;
         });
-        $spoiled = Ingredient::whereDate("expiration_date", "<", today())
+        $spoiled = Ingredient::whereDate("expiration_date", "<", today()->addDays(3))
             ->orderBy("expiration_date")
             ->get();
 
