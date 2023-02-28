@@ -47,9 +47,19 @@
                 Propozycje dań
             </h1>
         </div>
-        @foreach ($recipe_suggestions as $sug)
-            {{ $sug->name }}
+        @foreach ($recipe_suggestions as $time => $sug)
+            <a href="{{ route('recipe-view', ['id' => $sug->id]) }}">
+                <p>
+                    @if ($time == "dinner")
+                    <i class="fa-solid fa-sun" @popper(na obiad)></i>
+                    @else
+                    <i class="fa-solid fa-moon" @popper(na kolację)></i>                
+                    @endif
+                    {{ $sug->name }}
+                </p>
+            </a>
         @endforeach
+        </div>
     </section>
 </div>
 

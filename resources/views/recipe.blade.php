@@ -37,10 +37,10 @@
                 @endforeach
             </tbody>
         </table>
-        @if ($can_cook_recipe)
+        @if ($recipe->ingredientsSufficient())
         <x-button action="submit" icon="check" label="Ugotuj z powyższych" />
         @else
-        <h2 class="grayed-out">Niewystarczająca ilość składników</h2>
+        <h2 class="grayed-out">Brakuje składników</h2>
         @endif
     </form>
 

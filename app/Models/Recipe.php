@@ -30,4 +30,13 @@ class Recipe extends Model
         }
         return $can_cook_recipe;
     }
+    public function ingredientsSufficient(){
+        $return = true;
+        foreach($this->ingredients as $requirement){
+            if(
+                $requirement->template->positions->sum("amount") < $requirement->amount
+            ) $return = false;
+        }
+        return $return;
+    }
 }

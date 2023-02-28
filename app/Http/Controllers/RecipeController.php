@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class RecipeController extends Controller
 {
     function recipes(){
-        $recipes = Recipe::all();
+        $recipes = Recipe::orderBy("name")->get();
 
         return view("recipes", array_merge(
             ["title" => "Co gotujemy?"],
@@ -22,14 +22,15 @@ class RecipeController extends Controller
 
     function recipe($recipe_id){
         $recipe = Recipe::findOrFail($recipe_id);
-        $can_cook_recipe = $recipe->canBeCooked();
         foreach($recipe->ingredients as $requirement){
             $available[$requirement->ingredient_template_id] = $requirement->template->positions->sum("amount");
+            $sufficient[$requirement->ingredient_template_id] = $available[$requirement->ingredient_template_id] >= $requirement->amount;
         }
+        $all_sufficient = array_sum($sufficient) == count($recipe->ingredients);
 
         return view("recipe", array_merge(
             ["title" => "Przepis na $recipe->name"],
-            compact("recipe", "available", "can_cook_recipe")
+            compact("recipe", "available", "all_sufficient")
         ));
     }
 
