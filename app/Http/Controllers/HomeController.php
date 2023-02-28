@@ -60,6 +60,7 @@ class HomeController extends Controller
             ->join("ingredient_templates", "ingredients.ingredient_template_id", "ingredient_templates.id")
             ->orderBy("name")
             ->orderByDesc("amount")
+            ->select(["ingredients.id", "ingredients.ingredient_template_id", "amount", "expiration_date", "name", "minimum_amount", "unit", "ingredient_category_id"])
             ->get();
         $fridge_raw = Ingredient::whereHas("template", function($q){
             return $q->whereIn("ingredient_category_id", [2, 3, 4, 5, 6, 9, 10]);
@@ -67,6 +68,7 @@ class HomeController extends Controller
             ->join("ingredient_templates", "ingredients.ingredient_template_id", "ingredient_templates.id")
             ->orderBy("name")
             ->orderByDesc("amount")
+            ->select(["ingredients.id", "ingredients.ingredient_template_id", "amount", "expiration_date", "name", "minimum_amount", "unit", "ingredient_category_id"])
             ->get();
 
         $cupboard = []; $fridge = [];

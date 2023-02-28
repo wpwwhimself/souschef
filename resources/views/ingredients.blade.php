@@ -39,8 +39,8 @@
                         m-unit="{{ $position->template->unit }}"
                         >
                         <td>{{ $position->template->name }}</td>
-                        <td @if ($position->amount < $position->template->minimum_amount) class="error" @endif>
-                            {{ $position->amount }} {{ $position->template->unit }}
+                        <td>
+                            <x-amount :id="$position->id" />
                         </td>
                         @if (!$position->expiration_date)
                         <td class="ghost">
