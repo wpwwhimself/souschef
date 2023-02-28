@@ -22,10 +22,9 @@ class RecipeController extends Controller
 
     function recipe($recipe_id){
         $recipe = Recipe::findOrFail($recipe_id);
-        $can_cook_recipe = true;
+        $can_cook_recipe = $recipe->canBeCooked();
         foreach($recipe->ingredients as $requirement){
             $available[$requirement->ingredient_template_id] = $requirement->template->positions->sum("amount");
-            if($available[$requirement->ingredient_template_id] < $requirement->amount) $can_cook_recipe = false;
         }
 
         return view("recipe", array_merge(

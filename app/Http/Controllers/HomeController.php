@@ -6,6 +6,7 @@ use App\Models\Ingredient;
 use App\Models\IngredientCategory;
 use App\Models\IngredientsChange;
 use App\Models\IngredientTemplate;
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,9 +24,16 @@ class HomeController extends Controller
             ->orderBy("expiration_date")
             ->get();
 
+        // $recipe_suggestions_raw = Recipe::all()->filter(function($q){ return $q->canBeCooked(); });
+        // $recipe_suggestions = [
+        //     "dinner" => $recipe_suggestions_raw->filter(function($q){ return $q->where("for_dinner", true); }),
+        //     "supper" => $recipe_suggestions_raw->filter(function($q){ return $q->where("for_supper", true); }),
+        // ];
+        $recipe_suggestions = [];
+
         return view("dashboard", array_merge(
             ["title" => "Kuchnia"],
-            compact("shopping_list", "spoiled")
+            compact("shopping_list", "spoiled", "recipe_suggestions")
         ));
     }
 

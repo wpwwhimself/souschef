@@ -39,6 +39,18 @@
         <x-a href="{{ route('ingredients') }}">Przeglądaj składniki</x-a>
     </section>
     @endif
+
+    <section>
+        <div class="section-header">
+            <h1>
+                <i class="fa-solid fa-lightbulb"></i>
+                Propozycje dań
+            </h1>
+        </div>
+        @foreach ($recipe_suggestions as $sug)
+            {{ $sug->name }}
+        @endforeach
+    </section>
 </div>
 
 @endsection

@@ -12,7 +12,7 @@
 
     <div class="grid-2">
         @forelse ($recipes as $recipe)
-        <a href="{{ route('recipe-view', ['id' => $recipe->id]) }}" class="section-like">
+        <a href="{{ route('recipe-view', ['id' => $recipe->id]) }}" class="section-like recipe">
             <h2>
                 {{ $recipe->name }}
                 @if ($recipe->for_dinner) <i class="fa-solid fa-sun" @popper(na obiad)></i> @endif

@@ -401,6 +401,10 @@ form .flex-right{
     font-size: 1em;
 }
 
+.recipe h2, .recipe p{
+    margin: 0;
+}
+
 /************************MOBILITY**************/
 @media screen and (max-width: 960px){
     .grid-3{
@@ -408,15 +412,15 @@ form .flex-right{
         flex-wrap: wrap;
         justify-content: center;
     }
-    .grid-2{
-        grid-template-columns: auto;
-        gap: 0.5em;
-    }
 }
 
 @media screen and (max-width: 600px){
     body{
         padding-bottom: 0;
+    }
+    .grid-2{
+        grid-template-columns: auto;
+        gap: 0.5em;
     }
     .flex-right{
         flex-direction: column;
