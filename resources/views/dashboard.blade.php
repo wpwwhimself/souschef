@@ -47,18 +47,17 @@
                 Propozycje dań
             </h1>
         </div>
-        @foreach ($recipe_suggestions as $time => $sug)
+        <div class="grid-2">
+            @foreach ($recipe_suggestions as $time => $sug)
             <a href="{{ route('recipe-view', ['id' => $sug->id]) }}">
-                <p>
-                    @if ($time == "dinner")
-                    <i class="fa-solid fa-sun" @popper(na obiad)></i>
-                    @else
-                    <i class="fa-solid fa-moon" @popper(na kolację)></i>                
-                    @endif
-                    {{ $sug->name }}
-                </p>
+                @if ($time == "dinner")
+                <i class="fa-solid fa-sun" @popper(na obiad)></i>
+                @else
+                <i class="fa-solid fa-moon" @popper(na kolację)></i>
+                @endif
+                {{ $sug->name }}
             </a>
-        @endforeach
+            @endforeach
         </div>
     </section>
 </div>

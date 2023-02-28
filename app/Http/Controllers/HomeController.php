@@ -25,8 +25,8 @@ class HomeController extends Controller
             ->get();
 
         $recipe_suggestions_raw = Recipe::all()->filter(function($q){ return $q->canBeCooked(); });
-        $recipe_suggestions["dinner"] = $recipe_suggestions_raw->where("for_dinner", true)->random();
-        $recipe_suggestions["supper"] = $recipe_suggestions_raw->where("for_supper", true)->except($recipe_suggestions["dinner"]->id)->random();
+        $recipe_suggestions["dinner"] = $recipe_suggestions_raw->where("for_dinner", true)?->random();
+        $recipe_suggestions["supper"] = $recipe_suggestions_raw->where("for_supper", true)->except($recipe_suggestions["dinner"]->id)?->random();
 
         return view("dashboard", array_merge(
             ["title" => "Kuchnia"],
