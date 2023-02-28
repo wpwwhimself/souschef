@@ -404,7 +404,8 @@ form .flex-right{
         justify-content: center;
     }
     .grid-2{
-        display:block;
+        grid-template-columns: auto;
+        gap: 0.5em;
     }
 }
 
