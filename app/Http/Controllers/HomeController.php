@@ -55,7 +55,7 @@ class HomeController extends Controller
 
     public function ingredients(){
         $cupboard_raw = Ingredient::whereHas("template", function($q){
-            return $q->whereIn("ingredient_category_id", [1, 7, 8]);
+            return $q->whereIn("ingredient_category_id", [1, 7, 8, 11]);
         })
             ->join("ingredient_templates", "ingredients.ingredient_template_id", "ingredient_templates.id")
             ->orderBy("name")
