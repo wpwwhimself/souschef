@@ -469,7 +469,7 @@ form .flex-right{
         position: static;
         width: auto;
         margin-top: 3em; padding: 1em;
-        flex-direction: column-reverse;
+        flex-direction: column;
         text-align: center;
     }
     footer .contact-info{
