@@ -85,7 +85,7 @@
         <div class="flex-right">
             <x-select name="ingredient_template_id" label="Składnik" :options="$templates" />
             <x-input type="number" name="amount" label="Ilość" placeholder="" step="0.01" />
-            <div id="jno-levels" class="flex-right">
+            <div class="jno-levels" class="flex-right">
                 <x-input type="radio" name="jno_rem" value="0.9" label="███" />
                 <x-input type="radio" name="jno_rem" value="0.5" label="░██" />
                 <x-input type="radio" name="jno_rem" value="0.25" label="░░█" />
@@ -104,8 +104,8 @@
                     },
                     success: function (res) {
                         $("#amount").attr("placeholder", res);
-                        if(res == "JNO") $("#jno-levels").show();
-                        else $("#jno-levels").hide();
+                        if(res == "JNO") $(".jno-levels").show();
+                        else $(".jno-levels").hide();
                     }
                 });
             }

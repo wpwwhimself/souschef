@@ -396,7 +396,7 @@ form .flex-right{
     gap: 0.5em 0.5em;
 }
 
-#recipe-table input{
+#recipe-table input:not(input[type='radio']){
     width: 5em;
     font-size: 1em;
 }

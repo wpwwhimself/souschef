@@ -55,9 +55,10 @@ class RecipeController extends Controller
             array_filter(
                 array_map(
                     function($ingredient, $amount) use($recipe){
+                        $template = IngredientTemplate::find($ingredient);
                         return [
                             "ingredient_template_id" => $ingredient,
-                            "amount" => $amount,
+                            "amount" => $template->unit == "JNO" ? 0 : $amount,
                             "recipe_id" => $recipe->id,
                         ];
                     },
