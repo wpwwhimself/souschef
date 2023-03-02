@@ -8,6 +8,7 @@ use App\Models\IngredientsChange;
 use App\Models\IngredientTemplate;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -54,16 +55,23 @@ class HomeController extends Controller
     }
 
     public function ingredients(){
-        $cupboard_raw = Ingredient::whereHas("template", function($q){
-            return $q->whereIn("ingredient_category_id", [1, 7, 8, 11]);
+        $categ_split = DB::table("settings")
+            ->whereIn("name", [
+                "ingredient_categories_cupboard",
+                "ingredient_categories_fridge"
+            ])
+            ->get()->pluck("value", "name");
+
+        $cupboard_raw = Ingredient::whereHas("template", function($q) use ($categ_split){
+            return $q->whereIn("ingredient_category_id", explode(",", $categ_split["ingredient_categories_cupboard"]));
         })
             ->join("ingredient_templates", "ingredients.ingredient_template_id", "ingredient_templates.id")
             ->orderBy("name")
             ->orderByDesc("amount")
             ->select(["ingredients.id", "ingredients.ingredient_template_id", "amount", "expiration_date", "name", "minimum_amount", "unit", "ingredient_category_id"])
             ->get();
-        $fridge_raw = Ingredient::whereHas("template", function($q){
-            return $q->whereIn("ingredient_category_id", [2, 3, 4, 5, 6, 9, 10]);
+        $fridge_raw = Ingredient::whereHas("template", function($q) use ($categ_split){
+            return $q->whereIn("ingredient_category_id", explode(",", $categ_split["ingredient_categories_fridge"]));
         })
             ->join("ingredient_templates", "ingredients.ingredient_template_id", "ingredient_templates.id")
             ->orderBy("name")
