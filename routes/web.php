@@ -28,6 +28,7 @@ Route::middleware("auth")->group(function(){
             "dashboard",
             "home",
             "ingredients",
+            "settings",
         ] as $name){
             Route::get("/$name", $name)->name($name);
         }

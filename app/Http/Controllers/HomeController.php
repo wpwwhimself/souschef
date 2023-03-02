@@ -35,6 +35,15 @@ class HomeController extends Controller
         ));
     }
 
+    public function settings(){
+        $settings = DB::table("settings")->get()->pluck("value", "name");
+
+        return view("settings", array_merge(
+            ["title" => "Bezpieczniki kuchnii"],
+            compact("settings")
+        ));
+    }
+
     public function ingredientTemplates(){
         $templates = IngredientTemplate::orderBy("name")->get();
         $categories = IngredientCategory::all()->pluck("name", "id")->toArray();
