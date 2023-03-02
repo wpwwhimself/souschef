@@ -22,7 +22,7 @@
             </thead>
             <tbody>
                 @foreach ($recipe->ingredients as $i)
-                <tr @if($available[$i->ingredient_template_id] < $i->amount) class="error" @endif>
+                <tr @if($available[$i->ingredient_template_id] < $i->amount || $available[$i->ingredient_template_id] == 0) class="error" @endif>
                     <td>{{ $i->template->name }}</td>
                     <td>{{ $i->template->category->name }}</td>
                     <td>
@@ -30,8 +30,8 @@
                             type="number"
                             name="{{ $i->ingredient_template_id }}" value="{{ $i->amount }}"
                             />
-                        / {{ $available[$i->ingredient_template_id] }}
-                        {{ $i->template->unit }}
+                        /
+                        <x-amount :id="$i->template->id" :template="true" :force-amount="$available[$i->ingredient_template_id]" />
                     </td>
                 </tr>
                 @endforeach
