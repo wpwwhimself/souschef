@@ -68,9 +68,8 @@
         $(document).ready(function(){
             $("tr.clickable").click(function(){
                 const [id, exp, unit] = [$(this).attr("m-id"), $(this).attr("m-exp"), $(this).attr("m-unit")];
-                $("#ingredient_template_id").val(id);
+                $("#ingredient_template_id").val(id).trigger("change");
                 $("#expiration_date").val(exp);
-                $("#amount").attr("placeholder", unit);
                 $("#amount").focus();
             });
         });
@@ -86,6 +85,12 @@
         <div class="flex-right">
             <x-select name="ingredient_template_id" label="Składnik" :options="$templates" />
             <x-input type="number" name="amount" label="Ilość" placeholder="" step="0.01" />
+            <div id="jno-levels" class="flex-right">
+                <x-input type="radio" name="jno_rem" value="0.9" label="███" />
+                <x-input type="radio" name="jno_rem" value="0.5" label="░██" />
+                <x-input type="radio" name="jno_rem" value="0.25" label="░░█" />
+                <x-input type="radio" name="jno_rem" value="0" label="░░░" />
+            </div>
             <x-input type="date" name="expiration_date" label="Termin ważności" />
             <script>
             function ingredient_unit(){
@@ -99,6 +104,8 @@
                     },
                     success: function (res) {
                         $("#amount").attr("placeholder", res);
+                        if(res == "JNO") $("#jno-levels").show();
+                        else $("#jno-levels").hide();
                     }
                 });
             }

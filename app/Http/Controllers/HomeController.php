@@ -91,10 +91,15 @@ class HomeController extends Controller
             "expiration_date" => $rq->expiration_date,
         ])->first();
         if(!empty($target)){
-            $target->amount += $rq->amount;
+            $amount_before = $target->amount;
+            $target->amount += $rq->amount ?? 0;
+            if($target->template->unit === "JNO"){
+                $target->amount = floor($target->amount) + $rq->jno_rem;
+            }
             $target->save();
             $this->ingredientsCleanup();
         }else{
+            $amount_before = 0;
             Ingredient::create([
                 "ingredient_template_id" => $rq->ingredient_template_id,
                 "amount" => $rq->amount,
@@ -104,7 +109,7 @@ class HomeController extends Controller
 
         IngredientsChange::create([
             "ingredient_template_id" => $rq->ingredient_template_id,
-            "amount" => $rq->amount,
+            "amount" => $target->amount - $amount_before,
         ]);
 
         return back()->with("success", "Dodano składnik");

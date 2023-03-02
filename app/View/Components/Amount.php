@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Models\Ingredient;
+use App\Models\IngredientTemplate;
 use Illuminate\View\Component;
 
 class Amount extends Component
@@ -14,19 +15,36 @@ class Amount extends Component
      */
     public $output;
     public $ingredient;
-    public function __construct(public $id)
+    public function __construct(public $id, public $template = false)
     {
-        $this->ingredient = Ingredient::findOrFail($id);
+        if($template){
+            $this->ingredient = IngredientTemplate::findOrFail($id);
 
-        if($this->ingredient->template->unit != "JNO"){
-            $this->output = $this->ingredient->amount . " " . $this->ingredient->template->unit;
+            if($this->ingredient->minimum_amount === null){
+                $this->output = "bd.";
+            }else if($this->ingredient->unit != "JNO"){
+                $this->output = $this->ingredient->minimum_amount . " " . $this->ingredient->unit;
+            }else{
+                $rem = $this->ingredient->minimum_amount - floor($this->ingredient->minimum_amount);
+                $this->output = floor($this->ingredient->minimum_amount) ?: "";
+                if($rem == 0)         $this->output .= "░░░";
+                else if($rem <= 0.25) $this->output .= "░░█";
+                else if($rem <= 0.5)  $this->output .= "░██";
+                else if($rem <= 1)    $this->output .= "███";
+            }
         }else{
-            $rem = $this->ingredient->amount - floor($this->ingredient->amount);
-            $this->output = floor($this->ingredient->amount) ?: "";
-            if($rem == 0)         $this->output .= "░░░";
-            else if($rem <= 0.25) $this->output .= "░░█";
-            else if($rem <= 0.5)  $this->output .= "░██";
-            else if($rem <= 1)    $this->output .= "███";
+            $this->ingredient = Ingredient::findOrFail($id);
+
+            if($this->ingredient->template->unit != "JNO"){
+                $this->output = $this->ingredient->amount . " " . $this->ingredient->template->unit;
+            }else{
+                $rem = $this->ingredient->amount - floor($this->ingredient->amount);
+                $this->output = floor($this->ingredient->amount) ?: "";
+                if($rem == 0)         $this->output .= "░░░";
+                else if($rem <= 0.25) $this->output .= "░░█";
+                else if($rem <= 0.5)  $this->output .= "░██";
+                else if($rem <= 1)    $this->output .= "███";
+            }
         }
     }
 

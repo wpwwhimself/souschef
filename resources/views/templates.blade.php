@@ -24,11 +24,12 @@
                 <tr>
                     <td>{{ $template->name }}</td>
                     <td>{{ $template->category->name }}</td>
-                    <td @unless ($template->minimum_amount) class="ghost" @endunless >
+                    <td @if ($template->minimum_amount === null) class="ghost" @endif >
                         @if($template->minimum_amount === null)
                         bd.
                         @else
-                        {{ $template->minimum_amount }} {{ $template->unit }}
+                        <x-amount :id="$template->id" :template="true" />
+                        {{-- {{ $template->minimum_amount }} {{ $template->unit }} --}}
                         @endif
                     </td>
                 </tr>
