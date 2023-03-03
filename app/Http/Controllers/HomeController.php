@@ -126,7 +126,7 @@ class HomeController extends Controller
 
         IngredientsChange::create([
             "ingredient_template_id" => $rq->ingredient_template_id,
-            "amount" => $target->amount - $amount_before,
+            "amount" => ($target?->amount) - $amount_before,
         ]);
 
         return back()->with("success", "Dodano składnik");
