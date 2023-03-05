@@ -14,6 +14,7 @@ class Amount extends Component
      * @return void
      */
     public $output;
+    public $outputRaw;
     public $ingredient;
     public function __construct(
         public $id,
@@ -23,15 +24,14 @@ class Amount extends Component
     {
         if($template){
             $this->ingredient = IngredientTemplate::findOrFail($id);
-            $ingr_amount = $forceAmount ?? $this->ingredient->minimum_amount;
-
-            if($ingr_amount === null){
+            $this->outputRaw = ($forceAmount !== null) ? $forceAmount : $this->ingredient->minimum_amount;
+            if($this->outputRaw === null){
                 $this->output = "bd.";
             }else if($this->ingredient->unit != "JNO"){
-                $this->output = $ingr_amount . " " . $this->ingredient->unit;
+                $this->output = $this->outputRaw . " " . $this->ingredient->unit;
             }else{
-                $rem = $ingr_amount - floor($ingr_amount);
-                $this->output = floor($ingr_amount) ?: "";
+                $rem = $this->outputRaw - floor($this->outputRaw);
+                $this->output = floor($this->outputRaw) ?: "";
                 if($rem == 0)         $this->output .= "░░░";
                 else if($rem <= 0.25) $this->output .= "░░█";
                 else if($rem <= 0.5)  $this->output .= "░██";
@@ -39,13 +39,13 @@ class Amount extends Component
             }
         }else{
             $this->ingredient = Ingredient::findOrFail($id);
-            $ingr_amount = $forceAmount ?? $this->ingredient->amount;
+            $this->outputRaw = ($forceAmount !== null) ? $forceAmount : $this->ingredient->amount;
 
             if($this->ingredient->template->unit != "JNO"){
-                $this->output = $ingr_amount . " " . $this->ingredient->template->unit;
+                $this->output = $this->outputRaw . " " . $this->ingredient->template->unit;
             }else{
-                $rem = $ingr_amount - floor($ingr_amount);
-                $this->output = floor($ingr_amount) ?: "";
+                $rem = $this->outputRaw - floor($this->outputRaw);
+                $this->output = floor($this->outputRaw) ?: "";
                 if($rem == 0)         $this->output .= "░░░";
                 else if($rem <= 0.25) $this->output .= "░░█";
                 else if($rem <= 0.5)  $this->output .= "░██";
