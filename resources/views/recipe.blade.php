@@ -41,7 +41,7 @@
                         █
                         @else
                         <input
-                            type="number"
+                            type="number" step="0.05"
                             name="{{ $i->ingredient_template_id }}" value="{{ $i->amount }}"
                             />
                         @endif
