@@ -58,7 +58,7 @@ class RecipeController extends Controller
                         $template = IngredientTemplate::find($ingredient);
                         return [
                             "ingredient_template_id" => $ingredient,
-                            "amount" => $template->unit == "JNO" ? 0 : $amount,
+                            "amount" => ($template?->unit == "JNO") ? 0 : $amount,
                             "recipe_id" => $recipe->id,
                         ];
                     },
