@@ -29,7 +29,7 @@ class RecipeController extends Controller
         $all_sufficient = array_sum($sufficient) == count($recipe->ingredients);
 
         return view("recipe", array_merge(
-            ["title" => "Przepis na $recipe->name"],
+            ["title" => "Przepis na ".lcfirst($recipe->name)],
             compact("recipe", "available", "all_sufficient")
         ));
     }
