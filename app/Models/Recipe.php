@@ -18,14 +18,14 @@ class Recipe extends Model
     public function ingredients(){
         return $this->hasMany(RecipePosition::class);
     }
-    
+
     public function canBeCooked(){
         $can_cook_recipe = true;
         foreach($this->ingredients as $requirement){
             if(
                 $requirement->template->positions->sum("amount") < $requirement->amount
                 &&
-                $requirement->template->minimum_amount
+                $requirement->template->minimum_amount !== null
             ) $can_cook_recipe = false;
         }
         return $can_cook_recipe;

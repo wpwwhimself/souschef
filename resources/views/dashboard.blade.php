@@ -51,9 +51,9 @@
             @foreach ($recipe_suggestions as $time => $sug)
             <a href="{{ route('recipe-view', ['id' => $sug->id]) }}">
                 @if ($time == "dinner")
-                <i class="fa-solid fa-sun" @popper(na obiad)></i>
+                <i class="fa-solid fa-sun accent" @popper(na obiad)></i>
                 @else
-                <i class="fa-solid fa-moon" @popper(na kolację)></i>
+                <i class="fa-solid fa-moon accent" @popper(na kolację)></i>
                 @endif
                 {{ $sug->name }}
             </a>

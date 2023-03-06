@@ -116,6 +116,11 @@ div, form{
     text-align: left;
 }
 
+.anchor-top-right{
+    position: absolute;
+    top: 0; right: 0;
+}
+
 /* UNI COLORS */
 .ghost{
     opacity: 0.4;
@@ -131,6 +136,9 @@ div, form{
 }
 .grayed-out::before, .grayed-out::after, .yellowed-out::before, .yellowed-out::after{
     content: " — ";
+}
+.accent{
+    color: var(--acc);
 }
 
 /* CLICKABLE */
@@ -401,8 +409,12 @@ form .flex-right{
     font-size: 1em;
 }
 
-.recipe h2, .recipe p{
+.recipe h3, .recipe p{
     margin: 0;
+}
+.recipe h3{
+    display: flex;
+    justify-content: space-between;
 }
 
 /************************MOBILITY**************/
