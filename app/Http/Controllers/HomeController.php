@@ -7,6 +7,7 @@ use App\Models\IngredientCategory;
 use App\Models\IngredientsChange;
 use App\Models\IngredientTemplate;
 use App\Models\Recipe;
+use App\Models\RecipeRecent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,9 +26,16 @@ class HomeController extends Controller
             ->orderBy("expiration_date")
             ->get();
 
-        $recipe_suggestions_raw = Recipe::all()->filter(function($q){ return $q->canBeCooked(); });
-        $recipe_suggestions["dinner"] = $recipe_suggestions_raw->where("for_dinner", true)?->random();
-        $recipe_suggestions["supper"] = $recipe_suggestions_raw->where("for_supper", true)->except($recipe_suggestions["dinner"]->id)?->random();
+        $recipe_recents = RecipeRecent::orderByDesc("date")->limit(DB::table("settings")->where("name", "recipes_ignore_recents")->value("value"))->pluck("recipe_id")->toArray();
+        $recipe_suggestions_raw = Recipe::all()
+            ->filter(function($q){ return $q->canBeCooked(); })
+            ->except($recipe_recents);
+        $recipe_suggestions["dinner"] = (count($recipe_suggestions_raw->where("for_dinner", true))) ?
+            $recipe_suggestions_raw->where("for_dinner", true)->random() : 
+            null;
+        $recipe_suggestions["supper"] = (count($recipe_suggestions_raw->where("for_supper", true))) ? 
+            $recipe_suggestions_raw->where("for_supper", true)->except($recipe_suggestions["dinner"]?->id)?->random() :
+            null;
 
         return view("dashboard", array_merge(
             ["title" => "Kuchnia"],

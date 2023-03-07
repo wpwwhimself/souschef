@@ -49,14 +49,14 @@
         </div>
         <div class="grid-2">
             @foreach ($recipe_suggestions as $time => $sug)
-            <a href="{{ route('recipe-view', ['id' => $sug->id]) }}">
+            <a href="{{ $sug ? route('recipe-view', ['id' => $sug->id]) : route('recipes') }}">
                 @if ($time == "dinner")
                 <i class="fa-solid fa-sun accent" @popper(na obiad)></i>
                 @else
                 <i class="fa-solid fa-moon accent" @popper(na kolację)></i>
                 @endif
-                {{ $sug->name }}
-            </a>
+                {!! $sug->name ?? '<span class="grayed-out">Brak propozycji</span>' !!}
+            </a>   
             @endforeach
         </div>
     </section>
