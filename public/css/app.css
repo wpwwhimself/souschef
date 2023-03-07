@@ -396,6 +396,14 @@ form .flex-right{
     background-color: var(--bg1);
 }
 
+.jno-levels{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
 /********************************************/
 
 #recipe-ingredients>div{

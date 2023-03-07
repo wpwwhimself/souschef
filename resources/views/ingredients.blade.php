@@ -2,6 +2,50 @@
 
 @section('content')
 
+<section>
+    <form action="{{ route("ingredient-add") }}" method="post">
+        @csrf
+        <h2>Dodaj składnik</h2>
+        <div class="flex-right">
+            <x-select name="ingredient_template_id" label="Składnik" :options="$templates" />
+            <x-input type="number" name="amount" label="Ilość" placeholder="" step="0.01" />
+            <div class="jno-levels">
+                <x-input type="radio" name="jno_rem" value="0.9" label="███" />
+                <x-input type="radio" name="jno_rem" value="0.5" label="░██" />
+                <x-input type="radio" name="jno_rem" value="0.25" label="░░█" />
+                <x-input type="radio" name="jno_rem" value="0" label="░░░" />
+            </div>
+            <x-input type="date" name="expiration_date" label="Termin ważności" />
+            <script>
+            function ingredient_unit(){
+                const ing_id = $("#ingredient_template_id").val();
+                $.ajax({
+                    type: "get",
+                    url: "{{ route('ajax_ingredient_unit') }}",
+                    data: {
+                        ing_id: ing_id,
+                        csrf_token: "{{ csrf_token() }}"
+                    },
+                    success: function (res) {
+                        $("#amount").attr("placeholder", res);
+                        if(res == "JNO") $(".jno-levels").show();
+                        else $(".jno-levels").hide();
+                    }
+                });
+            }
+            $(document).ready(function(){
+                ingredient_unit();
+                $("#ingredient_template_id").change(function(){ ingredient_unit(); });
+            });
+            </script>
+        </div>
+        <div>
+            <x-button action="submit" icon="plus" label="Dodaj" />
+            <x-a href="{{ route('ingredient-templates') }}">Lista wzorców</x-a>
+        </div>
+    </form>
+</section>
+
 <div class="grid-2">
     @foreach ([
         ["Szafka", "sack-xmark", $cupboard],
@@ -77,48 +121,6 @@
     </section>
     @endforeach
 </div>
-
-<section>
-    <form action="{{ route("ingredient-add") }}" method="post">
-        @csrf
-        <h2>Dodaj składnik</h2>
-        <div class="flex-right">
-            <x-select name="ingredient_template_id" label="Składnik" :options="$templates" />
-            <x-input type="number" name="amount" label="Ilość" placeholder="" step="0.01" />
-            <div class="jno-levels" class="flex-right">
-                <x-input type="radio" name="jno_rem" value="0.9" label="███" />
-                <x-input type="radio" name="jno_rem" value="0.5" label="░██" />
-                <x-input type="radio" name="jno_rem" value="0.25" label="░░█" />
-                <x-input type="radio" name="jno_rem" value="0" label="░░░" />
-            </div>
-            <x-input type="date" name="expiration_date" label="Termin ważności" />
-            <script>
-            function ingredient_unit(){
-                const ing_id = $("#ingredient_template_id").val();
-                $.ajax({
-                    type: "get",
-                    url: "{{ route('ajax_ingredient_unit') }}",
-                    data: {
-                        ing_id: ing_id,
-                        csrf_token: "{{ csrf_token() }}"
-                    },
-                    success: function (res) {
-                        $("#amount").attr("placeholder", res);
-                        if(res == "JNO") $(".jno-levels").show();
-                        else $(".jno-levels").hide();
-                    }
-                });
-            }
-            $(document).ready(function(){
-                ingredient_unit();
-                $("#ingredient_template_id").change(function(){ ingredient_unit(); });
-            });
-            </script>
-        </div>
-        <x-button action="submit" icon="plus" label="Dodaj" />
-    </form>
-    <x-a href="{{ route('ingredient-templates') }}">Lista wzorców</x-a>
-</section>
 
 <div class="grid-2">
     <section>
