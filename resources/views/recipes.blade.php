@@ -37,4 +37,21 @@
 
 <x-a href="{{ route('recipe-add') }}">Dodaj nowy przepis</x-a>
 
+<section>
+    <div class="section-header">
+        <h1>
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            Ostatnio ugotowane
+        </h1>
+    </div>
+    <div class="grid-2">
+    @forelse ($recents as $recent)
+        <a href="{{ route('recipe-view', ['id' => $recent->recipe_id]) }}">{{ $recent->recipe->name }}</a>
+        <span {{ Popper::pop($recent->date->format("Y-m-d")) }}>{{ $recent->date->diffForHumans() }}</span>
+    @empty
+        <p class="grayed-out">Brak danych</p>
+    @endforelse
+    </div>
+</section>
+
 @endsection

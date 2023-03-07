@@ -7,16 +7,18 @@ use App\Models\IngredientsChange;
 use App\Models\IngredientTemplate;
 use App\Models\Recipe;
 use App\Models\RecipePosition;
+use App\Models\RecipeRecent;
 use Illuminate\Http\Request;
 
 class RecipeController extends Controller
 {
     function recipes(){
         $recipes = Recipe::orderBy("name")->get();
+        $recents = RecipeRecent::orderByDesc("date")->limit(7)->get();
 
         return view("recipes", array_merge(
             ["title" => "Co gotujemy?"],
-            compact("recipes")
+            compact("recipes", "recents")
         ));
     }
 
@@ -91,11 +93,15 @@ class RecipeController extends Controller
                 $amount_left -= $current_amount_to_sub; $i++;
             }
 
-            IngredientsChange::create([
-                "ingredient_template_id" => $ingredient_template_id,
-                "amount" => -$amount_to_sub,
-            ]);
+            if($amount_to_sub != 0){
+                IngredientsChange::create([
+                    "ingredient_template_id" => $ingredient_template_id,
+                    "amount" => -$amount_to_sub,
+                ]);
+            }
         }
+
+        RecipeRecent::create(["recipe_id" => $recipe_id, "date" => now()]);
 
         return redirect()->route("ingredients")->with("success", "Stany pomniejszone");
     }
