@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RecipeController;
 use App\Models\IngredientTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -58,3 +59,7 @@ Route::middleware("auth")->group(function(){
 Route::get("/ajax/ingredient_unit", function(Request $rq){
     return IngredientTemplate::find($rq->ing_id)->unit;
 })->name("ajax_ingredient_unit");
+Route::post("/ajax/setting", function(Request $rq){
+    DB::table("settings")->where("name", $rq->name)->update(["value" => $rq->value]);
+    return $rq->name;
+})->name("ajax_settings");

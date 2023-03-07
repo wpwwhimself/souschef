@@ -44,7 +44,7 @@ class HomeController extends Controller
     }
 
     public function settings(){
-        $settings = DB::table("settings")->get()->pluck("value", "name");
+        $settings = DB::table("settings")->get();
 
         return view("settings", array_merge(
             ["title" => "Bezpieczniki kuchnii"],
