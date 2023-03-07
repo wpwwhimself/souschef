@@ -32,10 +32,10 @@ class Amount extends Component
             }else{
                 $rem = $this->outputRaw - floor($this->outputRaw);
                 $this->output = floor($this->outputRaw) ?: "";
-                if($rem == 0)         $this->output .= "░░░";
-                else if($rem <= 0.25) $this->output .= "░░█";
-                else if($rem <= 0.5)  $this->output .= "░██";
-                else if($rem <= 1)    $this->output .= "███";
+                if($rem == 0)         $this->output .= "░░░░";
+                else if($rem <= 0.25) $this->output .= "░░░█";
+                else if($rem <= 0.5)  $this->output .= "░░██";
+                else if($rem <= 1)    $this->output .= "████";
             }
         }else{
             $this->ingredient = Ingredient::findOrFail($id);
@@ -46,10 +46,10 @@ class Amount extends Component
             }else{
                 $rem = $this->outputRaw - floor($this->outputRaw);
                 $this->output = floor($this->outputRaw) ?: "";
-                if($rem == 0)         $this->output .= "░░░";
-                else if($rem <= 0.25) $this->output .= "░░█";
-                else if($rem <= 0.5)  $this->output .= "░██";
-                else if($rem <= 1)    $this->output .= "███";
+                if($rem == 0)         $this->output .= "░░░░";
+                else if($rem <= 0.25) $this->output .= "░░░█";
+                else if($rem <= 0.5)  $this->output .= "░░██";
+                else if($rem <= 1)    $this->output .= "████";
             }
         }
     }

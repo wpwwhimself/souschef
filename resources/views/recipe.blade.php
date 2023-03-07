@@ -17,7 +17,7 @@
                 <tr>
                     <th>Składnik</th>
                     <th>Kategoria</th>
-                    <th>Ilość</th>
+                    <th>Ilość do odjęcia</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,12 +33,12 @@
                     <td>{{ $i->template->category->name }}</td>
                     <td>
                         @if ($i->template->unit == "JNO")
-                        ░
-                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="0" />
-                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="0.25" />
-                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="0.5" />
-                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="1" />
                         █
+                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="1" />
+                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="0.5" />
+                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="0.25" />
+                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="0" checked />
+                        ░
                         @else
                         <input
                             type="number" step="0.05"

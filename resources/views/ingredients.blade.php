@@ -10,10 +10,10 @@
             <x-select name="ingredient_template_id" label="Składnik" :options="$templates" />
             <x-input type="number" name="amount" label="Ilość" placeholder="" step="0.01" />
             <div class="jno-levels">
-                <x-input type="radio" name="jno_rem" value="0.9" label="███" />
-                <x-input type="radio" name="jno_rem" value="0.5" label="░██" />
-                <x-input type="radio" name="jno_rem" value="0.25" label="░░█" />
-                <x-input type="radio" name="jno_rem" value="0" label="░░░" />
+                <x-input type="radio" name="jno_rem" value="0.9"  label="████" />
+                <x-input type="radio" name="jno_rem" value="0.5"  label="░░██" />
+                <x-input type="radio" name="jno_rem" value="0.25" label="░░░█" />
+                <x-input type="radio" name="jno_rem" value="0"    label="░░░░" />
             </div>
             <x-input type="date" name="expiration_date" label="Termin ważności" />
             <script>
