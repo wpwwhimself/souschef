@@ -24,6 +24,7 @@
                     @if ($recipe->for_supper) <i class="fa-solid fa-moon accent" @popper(na kolację)></i> @endif
                 </span>
                 <span>
+                    @if ($recents->contains($recipe->withoutRelations())) <i class="fa-solid fa-clock-rotate-left success" @popper(niedawno gotowane)></i> @endif
                     @unless ($recipe->ingredientsSufficient()) <i class="fa-solid fa-basket-shopping error" @popper(brakuje składników)></i> @endunless
                 </span>
             </h3>
@@ -36,22 +37,5 @@
 </section>
 
 <x-a href="{{ route('recipe-add') }}">Dodaj nowy przepis</x-a>
-
-<section>
-    <div class="section-header">
-        <h1>
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            Ostatnio ugotowane
-        </h1>
-    </div>
-    <div class="grid-2">
-    @forelse ($recents as $recent)
-        <a href="{{ route('recipe-view', ['id' => $recent->recipe_id]) }}">{{ $recent->recipe->name }}</a>
-        <span {{ Popper::pop($recent->date->format("Y-m-d")) }}>{{ $recent->date->diffForHumans() }}</span>
-    @empty
-        <p class="grayed-out">Brak danych</p>
-    @endforelse
-    </div>
-</section>
 
 @endsection

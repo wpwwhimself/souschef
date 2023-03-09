@@ -9,12 +9,18 @@ use App\Models\Recipe;
 use App\Models\RecipePosition;
 use App\Models\RecipeRecent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RecipeController extends Controller
 {
     function recipes(){
         $recipes = Recipe::orderBy("name")->get();
-        $recents = RecipeRecent::orderByDesc("date")->limit(7)->get();
+        $recents = RecipeRecent::orderByDesc("date")
+            ->with("recipe")
+            ->limit(DB::table("settings")->where("name", "recipes_ignore_recents")->value("value"))
+            ->get()
+            ->pluck("recipe")
+            ->flatten();
 
         return view("recipes", array_merge(
             ["title" => "Co gotujemy?"],
