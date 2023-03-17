@@ -31,7 +31,7 @@
                     >
                     <td>{{ $i->template->name }}</td>
                     <td>{{ $i->template->category->name }}</td>
-                    <td>
+                    <td @if($i->template->unit != "JNO") class="ingredients-amount-validator" @endif>
                         @if ($i->template->unit == "JNO")
                         █
                         <input type="radio" name="{{ $i->ingredient_template_id }}" value="1" />
@@ -52,13 +52,34 @@
                 @endforeach
             </tbody>
         </table>
-        @if ($recipe->ingredientsSufficient())
-        <x-button action="submit" icon="check" label="Ugotuj z powyższych" />
-        @else
-        <h2 class="grayed-out">Brakuje składników</h2>
-        @endif
-    </form>
+        <x-button action="submit" icon="check" label="Ugotuj z powyższych" id="cook_it" />
+        <h2 class="grayed-out" id="ingredients_missing">Brakuje składników</h2>
+        <script defer>
+        function ingredientsSufficient(){
+            let all_sufficient = true;
+            document.querySelectorAll(".ingredients-amount-validator").forEach(field => {
+                const [needing, having] = [
+                    +field.children[0].value,
+                    +field.children[1].textContent.match(/\d+/g)[0]
+                ];
+                if(needing > having){
+                    all_sufficient = false;
+                    field.closest("tr").classList.add("error");
+                }else{
+                    field.closest("tr").classList.remove("error");
+                }
+            });
 
+            document.getElementById("cook_it").style.display = (all_sufficient) ? "inline-block" : "none";
+            document.getElementById("ingredients_missing").style.display = (!all_sufficient) ? "inline" : "none";
+        }
+
+        ingredientsSufficient();
+        document.querySelectorAll(".ingredients-amount-validator input").forEach(input => {
+            input.addEventListener("change", () => ingredientsSufficient());
+        });
+        </script>
+    </form>
 </section>
 
 @endsection
