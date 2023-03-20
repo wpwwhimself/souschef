@@ -60,8 +60,9 @@
             document.querySelectorAll(".ingredients-amount-validator").forEach(field => {
                 const [needing, having] = [
                     +field.children[0].value,
-                    +field.children[1].textContent.match(/\d+/g)[0]
+                    +field.children[1].textContent.match(/\d+\.?\d*/g)[0]
                 ];
+                console.log(needing, having);
                 if(needing > having){
                     all_sufficient = false;
                     field.closest("tr").classList.add("error");
