@@ -65,7 +65,10 @@ class HomeController extends Controller
         ));
     }
     public function ingredientTemplateAdd(Request $rq){
-        IngredientTemplate::create([
+        IngredientTemplate::updateOrCreate([
+            "id" => $rq->id,
+        ],
+        [
             "name" => $rq->name,
             "minimum_amount" => $rq->minimum_amount,
             "unit" => $rq->unit ?? "JNO",

@@ -21,10 +21,12 @@
             </thead>
             <tbody>
                 @forelse ($templates as $template)
-                <tr>
+                <tr class="clickable" data-id="{{ $template->id }}">
                     <td>{{ $template->name }}</td>
-                    <td>{{ $template->category->name }}</td>
-                    <td @if ($template->minimum_amount === null) class="ghost" @endif >
+                    <td data-id="{{ $template->category->id }}">{{ $template->category->name }}</td>
+                    <td data-value="{{ $template->minimum_amount }}" data-unit="{{ $template->unit }}"
+                        @if ($template->minimum_amount === null) class="ghost" @endif
+                        >
                         @if($template->minimum_amount === null)
                         bd.
                         @else
@@ -52,11 +54,25 @@
                 <x-input type="text" name="name" label="Nazwa" autofocus />
                 <x-input type="number" name="minimum_amount" label="Minimalna ilość" step="0.01" />
                 <x-input type="text" name="unit" label="Jednostka" placeholder="JNO" />
+                <input type="hidden" name="id" id="id" value="" />
                 <x-select name="ingredient_category_id" label="Kategoria" :options="$categories" />
             </div>
-            <x-button action="submit" icon="plus" label="Dodaj" />
+            <x-button action="submit" icon="check" label="Potwierdź" />
         </form>
     </section>
 </div>
+
+<script>
+document.querySelectorAll("tr.clickable").forEach(el => {
+    el.addEventListener("click", ev => {
+        const row = ev.target.closest("tr");
+        document.getElementById("id").value = row.getAttribute("data-id");
+        document.getElementById("name").value = row.children[0].innerHTML;
+        document.getElementById("minimum_amount").value = row.children[2].getAttribute("data-value");
+        document.getElementById("unit").value = row.children[2].getAttribute("data-unit");
+        document.getElementById("ingredient_category_id").value = row.children[1].getAttribute("data-id");
+    });
+})
+</script>
 
 @endsection
