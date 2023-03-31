@@ -47,6 +47,7 @@ Route::middleware("auth")->group(function(){
         Route::get("/recipes", "recipes")->name("recipes");
         Route::get("/recipes/view/{id}", "recipe")->name("recipe-view");
         Route::get("/recipes/add", "add")->name("recipe-add");
+        Route::get("/recipes/mod/{id}", "mod")->name("recipe-mod");
         Route::post("/recipes/process", "process")->name("recipe-process");
 
         Route::post("/recipes/clear/{id}", "clear")->name("recipe-clear");

@@ -51,14 +51,25 @@ class RecipeController extends Controller
         ));
     }
 
+    function mod($recipe_id){
+        $recipe = Recipe::findOrFail($recipe_id);
+        $templates = IngredientTemplate::orderBy("name")->pluck("name", "id");
+
+        return view("recipe-add", array_merge(
+            ["title" => "Poprawiam przepis na: $recipe->name"],
+            compact("templates", "recipe")
+        ));
+    }
+
     function process(Request $rq){
-        $recipe = Recipe::create([
+        $recipe = Recipe::updateOrCreate(["id" => $rq->recipe_id], [
             "name" => $rq->name,
             "desc" => $rq->desc,
             "for_dinner" => $rq->has("for_dinner"),
             "for_supper" => $rq->has("for_supper"),
         ]);
 
+        RecipePosition::where("recipe_id", $recipe->id)->delete();
         RecipePosition::insert(
             array_filter(
                 array_map(

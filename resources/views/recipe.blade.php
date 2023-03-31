@@ -52,34 +52,37 @@
                 @endforeach
             </tbody>
         </table>
-        <x-button action="submit" icon="check" label="Ugotuj z powyższych" id="cook_it" />
-        <h2 class="grayed-out" id="ingredients_missing">Brakuje składników</h2>
-        <script defer>
-        function ingredientsSufficient(){
-            let all_sufficient = true;
-            document.querySelectorAll(".ingredients-amount-validator").forEach(field => {
-                const [needing, having] = [
-                    +field.children[0].value,
-                    +field.children[1].textContent.match(/\d+\.?\d*/g)[0]
-                ];
-                console.log(needing, having);
-                if(needing > having){
-                    all_sufficient = false;
-                    field.closest("tr").classList.add("error");
-                }else{
-                    field.closest("tr").classList.remove("error");
-                }
+        <div>
+            <x-button action="submit" icon="check" label="Ugotuj z powyższych" id="cook_it" />
+            <h2 class="grayed-out" id="ingredients_missing">Brakuje składników</h2>
+            <script defer>
+            function ingredientsSufficient(){
+                let all_sufficient = true;
+                document.querySelectorAll(".ingredients-amount-validator").forEach(field => {
+                    const [needing, having] = [
+                        +field.children[0].value,
+                        +field.children[1].textContent.match(/\d+\.?\d*/g)[0]
+                    ];
+                    console.log(needing, having);
+                    if(needing > having){
+                        all_sufficient = false;
+                        field.closest("tr").classList.add("error");
+                    }else{
+                        field.closest("tr").classList.remove("error");
+                    }
+                });
+
+                document.getElementById("cook_it").style.display = (all_sufficient) ? "inline-block" : "none";
+                document.getElementById("ingredients_missing").style.display = (!all_sufficient) ? "inline" : "none";
+            }
+
+            ingredientsSufficient();
+            document.querySelectorAll(".ingredients-amount-validator input").forEach(input => {
+                input.addEventListener("change", () => ingredientsSufficient());
             });
-
-            document.getElementById("cook_it").style.display = (all_sufficient) ? "inline-block" : "none";
-            document.getElementById("ingredients_missing").style.display = (!all_sufficient) ? "inline" : "none";
-        }
-
-        ingredientsSufficient();
-        document.querySelectorAll(".ingredients-amount-validator input").forEach(input => {
-            input.addEventListener("change", () => ingredientsSufficient());
-        });
-        </script>
+            </script>
+            <x-button action="{{ route('recipe-mod', ['id' => $recipe->id]) }}" label="Modyfikuj" icon="pencil" :small="true" />              
+        </div>
     </form>
 </section>
 

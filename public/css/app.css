@@ -408,7 +408,8 @@ form .flex-right{
 
 #recipe-ingredients>div{
     display: grid;
-    grid-template-columns: 5em auto;
+    grid-template-columns: auto 5em 2.5em;
+    align-items: center;
     gap: 0.5em 0.5em;
 }
 
