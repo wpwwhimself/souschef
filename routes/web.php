@@ -34,10 +34,11 @@ Route::middleware("auth")->group(function(){
             Route::get("/$name", $name)->name($name);
         }
         Route::post("/ingredients/add", "ingredientAdd")->name("ingredient-add");
-
+        
         Route::get("/ingredients/templates", "ingredientTemplates")->name("ingredient-templates");
         Route::post("/ingredients/templates/add", "ingredientTemplateAdd")->name("ingredient-template-add");
-
+        Route::get("/ingredients/templates/delete/{id?}", "ingredientTemplateDelete")->name("ingredient-template-delete");
+        
         Route::get("/home", function(){
             return redirect()->route("dashboard");
         });

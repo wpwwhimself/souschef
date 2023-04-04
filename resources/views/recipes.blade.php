@@ -26,6 +26,7 @@
                 <span>
                     @if ($recents->contains($recipe->withoutRelations())) <i class="fa-solid fa-clock-rotate-left success" @popper(niedawno gotowane)></i> @endif
                     @unless ($recipe->ingredientsSufficient()) <i class="fa-solid fa-basket-shopping error" @popper(brakuje składników)></i> @endunless
+                    @unless (count($recipe->ingredients)) <i class="fa-solid fa-triangle-exclamation error" @popper(pusty przepis)></i> @endunless
                 </span>
             </h3>
             {{ Illuminate\Mail\Markdown::parse($recipe->desc) }}

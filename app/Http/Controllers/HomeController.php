@@ -7,6 +7,7 @@ use App\Models\IngredientCategory;
 use App\Models\IngredientsChange;
 use App\Models\IngredientTemplate;
 use App\Models\Recipe;
+use App\Models\RecipePosition;
 use App\Models\RecipeRecent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -75,6 +76,18 @@ class HomeController extends Controller
             "ingredient_category_id" => $rq->ingredient_category_id,
         ]);
         return redirect()->route("ingredients")->with("success", "Dodano wzorzec");
+    }
+    public function ingredientTemplateDelete($id = null){
+        if(!$id) return back()->with("error", "Nie wskazano, co usunąć");
+
+        $template = IngredientTemplate::findOrFail($id);
+
+        RecipePosition::where("ingredient_template_id", $id)->delete();
+        IngredientsChange::where("ingredient_template_id", $id)->delete();
+        Ingredient::where("ingredient_template_id", $id)->delete();
+        $template->delete();
+        
+        return back()->with("success", "Usunięto składnik ".$template->name);
     }
 
     public function ingredients(){

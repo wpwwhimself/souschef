@@ -30,15 +30,18 @@ class RecipeController extends Controller
 
     function recipe($recipe_id){
         $recipe = Recipe::findOrFail($recipe_id);
-        foreach($recipe->ingredients as $requirement){
-            $available[$requirement->ingredient_template_id] = $requirement->template->positions->sum("amount");
-            $sufficient[$requirement->ingredient_template_id] = $available[$requirement->ingredient_template_id] >= $requirement->amount;
+
+        if(count($recipe->ingredients)){
+            foreach($recipe->ingredients as $requirement){
+                $available[$requirement->ingredient_template_id] = $requirement->template->positions->sum("amount");
+            }
+        }else{
+            $available = [];
         }
-        $all_sufficient = array_sum($sufficient) == count($recipe->ingredients);
 
         return view("recipe", array_merge(
             ["title" => "Przepis na: $recipe->name"],
-            compact("recipe", "available", "all_sufficient")
+            compact("recipe", "available")
         ));
     }
 

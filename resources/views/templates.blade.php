@@ -31,7 +31,6 @@
                         bd.
                         @else
                         <x-amount :id="$template->id" :template="true" />
-                        {{-- {{ $template->minimum_amount }} {{ $template->unit }} --}}
                         @endif
                     </td>
                 </tr>
@@ -58,6 +57,9 @@
                 <x-select name="ingredient_category_id" label="Kategoria" :options="$categories" />
             </div>
             <x-button action="submit" icon="check" label="Potwierdź" />
+            <div class="flex-right" id="delete-template" style="display: none;">
+                <x-button action="#/" icon="trash" label="Usuń" :small="true" :danger="true" />
+            </div>
         </form>
     </section>
 </div>
@@ -71,8 +73,11 @@ document.querySelectorAll("tr.clickable").forEach(el => {
         document.getElementById("minimum_amount").value = row.children[2].getAttribute("data-value");
         document.getElementById("unit").value = row.children[2].getAttribute("data-unit");
         document.getElementById("ingredient_category_id").value = row.children[1].getAttribute("data-id");
+        // deleting button
+        document.querySelector("#delete-template a.submit").href = `{{ route('ingredient-template-delete') }}/${row.getAttribute("data-id")}`;
+        document.querySelector("#delete-template").style.display = "block";
     });
-})
+});
 </script>
 
 @endsection

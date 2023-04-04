@@ -21,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($recipe->ingredients as $i)
+                @forelse ($recipe->ingredients as $i)
                 <tr
                     @if($available[$i->ingredient_template_id] < $i->amount)
                         class="error"
@@ -49,15 +49,21 @@
                         <x-amount :id="$i->template->id" :template="true" :force-amount="$available[$i->ingredient_template_id]" />
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan=3>
+                        <span class="grayed-out">brak określonych składników</span>
+                    </td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
         <div>
             <x-button action="submit" icon="check" label="Ugotuj z powyższych" id="cook_it" />
-            <h2 class="grayed-out" id="ingredients_missing">Brakuje składników</h2>
+            <h2 class="grayed-out" id="ingredients_missing">Nie możemy tego ugotować</h2>
             <script defer>
             function ingredientsSufficient(){
-                let all_sufficient = true;
+                let all_sufficient = {{ count($available) > 0 ? "true" : "false" }};
                 document.querySelectorAll(".ingredients-amount-validator").forEach(field => {
                     const [needing, having] = [
                         +field.children[0].value,

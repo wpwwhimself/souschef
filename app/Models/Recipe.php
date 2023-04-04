@@ -20,6 +20,8 @@ class Recipe extends Model
     }
 
     public function canBeCooked(){
+        if(!count($this->ingredients)) return false;
+        
         $can_cook_recipe = true;
         foreach($this->ingredients as $requirement){
             if(
