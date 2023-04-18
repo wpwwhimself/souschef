@@ -106,11 +106,23 @@ class RecipeController extends Controller
 
             $i = 0; $amount_left = $amount_to_sub;
             while($amount_left > 0){
-                $current_amount_to_sub = min($amount_left, $ingredients_to_sub_from[$i]);
-                $ingredients_to_sub_from[$i]->amount -= $current_amount_to_sub;
+                if($ingredients_to_sub_from[$i]->template->unit == "JNO"){
+                    switch($amount_left){
+                        case 1: 
+                            $ingredients_to_sub_from[$i]->amount = 0; break;
+                        case 0.75:
+                            $ingredients_to_sub_from[$i]->amount = ($ingredients_to_sub_from[$i]->amount > 0.25) ? 0.25 : 0; break;
+                        default:
+                    }
+                }else{
+                    $current_amount_to_sub = min($amount_left, $ingredients_to_sub_from[$i]);
+                    $ingredients_to_sub_from[$i]->amount -= $current_amount_to_sub;
+                }
                 $ingredients_to_sub_from[$i]->save();
                 app("App\Http\Controllers\HomeController")->ingredientsCleanup();
-                $amount_left -= $current_amount_to_sub; $i++;
+                
+                $amount_left -= ($ingredients_to_sub_from[$i]->template->unit == "JNO") ? $amount_left : $current_amount_to_sub;
+                $i++;
             }
 
             if($amount_to_sub != 0){

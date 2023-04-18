@@ -35,8 +35,7 @@
                         @if ($i->template->unit == "JNO")
                         █
                         <input type="radio" name="{{ $i->ingredient_template_id }}" value="1" />
-                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="0.5" />
-                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="0.25" />
+                        <input type="radio" name="{{ $i->ingredient_template_id }}" value="0.75" />
                         <input type="radio" name="{{ $i->ingredient_template_id }}" value="0" checked />
                         ░
                         @else
