@@ -19,6 +19,14 @@ class Recipe extends Model
         return $this->hasMany(RecipePosition::class);
     }
 
+    public function totalMass(){
+        $mass = 0;
+        // dd($this->ingredients);
+        foreach($this->ingredients as $ingredient){
+            $mass += $ingredient->template->mass * $ingredient->amount;
+        }
+        return $mass;
+    }
     public function canBeCooked(){
         if(!count($this->ingredients)) return false;
         

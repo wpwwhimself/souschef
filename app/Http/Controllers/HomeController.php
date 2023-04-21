@@ -73,6 +73,7 @@ class HomeController extends Controller
             "name" => $rq->name,
             "minimum_amount" => $rq->minimum_amount,
             "unit" => $rq->unit ?? "JNO",
+            "mass" => $rq->mass ?? 0,
             "ingredient_category_id" => $rq->ingredient_category_id,
         ]);
         return redirect()->route("ingredients")->with("success", "Dodano wzorzec");

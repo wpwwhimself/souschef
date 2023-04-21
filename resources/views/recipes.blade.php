@@ -30,6 +30,7 @@
                 </span>
             </h3>
             {{ Illuminate\Mail\Markdown::parse($recipe->desc) }}
+            <span class="ghost">{{ $recipe->totalMass() }} g</span>
         </a>
         @empty
         <p class="grayed-out">Nie mam żadnych przepisów</p>

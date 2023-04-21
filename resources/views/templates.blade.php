@@ -17,6 +17,7 @@
                     <th>Nazwa składnika</th>
                     <th>Kategoria</th>
                     <th @popper(Minimalna ilość)>Min.</th>
+                    <th>g/jedn.</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +34,7 @@
                         <x-amount :id="$template->id" :template="true" />
                         @endif
                     </td>
+                    <td data-value="{{ $template->mass }}">{{ $template->mass }} g</td>
                 </tr>
                 @empty
                 <tr>
@@ -53,6 +55,7 @@
                 <x-input type="text" name="name" label="Nazwa" autofocus />
                 <x-input type="number" name="minimum_amount" label="Minimalna ilość" step="0.01" />
                 <x-input type="text" name="unit" label="Jednostka" placeholder="JNO" />
+                <x-input type="number" name="mass" label="Masa/jedn. [g]" placeholder="0" step="0.1" />
                 <input type="hidden" name="id" id="id" value="" />
                 <x-select name="ingredient_category_id" label="Kategoria" :options="$categories" />
             </div>
@@ -72,6 +75,7 @@ document.querySelectorAll("tr.clickable").forEach(el => {
         document.getElementById("name").value = row.children[0].innerHTML;
         document.getElementById("minimum_amount").value = row.children[2].getAttribute("data-value");
         document.getElementById("unit").value = row.children[2].getAttribute("data-unit");
+        document.getElementById("mass").value = row.children[3].getAttribute("data-value");
         document.getElementById("ingredient_category_id").value = row.children[1].getAttribute("data-id");
         // deleting button
         document.querySelector("#delete-template a.submit").href = `{{ route('ingredient-template-delete') }}/${row.getAttribute("data-id")}`;
