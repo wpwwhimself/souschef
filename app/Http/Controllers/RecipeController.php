@@ -13,8 +13,15 @@ use Illuminate\Support\Facades\DB;
 
 class RecipeController extends Controller
 {
-    function recipes(){
-        $recipes = Recipe::orderBy("name")->get();
+    function recipes($ingredient_template_id = null){
+        $recipes = Recipe::orderBy("name");
+        $ingredient = IngredientTemplate::find($ingredient_template_id);
+        if($ingredient){
+            $recipes = $recipes->whereHas("ingredients", function($q) use ($ingredient_template_id){
+                $q->where("ingredient_template_id", $ingredient_template_id);
+            });
+        }
+        $recipes = $recipes->get();
         $recents = RecipeRecent::orderByDesc("date")
             ->with("recipe")
             ->limit(DB::table("settings")->where("name", "recipes_ignore_recents")->value("value"))
@@ -24,7 +31,7 @@ class RecipeController extends Controller
 
         return view("recipes", array_merge(
             ["title" => "Co gotujemy?"],
-            compact("recipes", "recents")
+            compact("recipes", "recents", "ingredient")
         ));
     }
 

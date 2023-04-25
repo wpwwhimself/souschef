@@ -33,7 +33,12 @@
         </div>
         <ul>
             @foreach ($spoiled as $item)
-            <li>{{ $item->template->name }} – {{ $item->expiration_date->diffForHumans() }}</li>
+            <li>
+                {{ $item->template->name }} – {{ $item->expiration_date->diffForHumans() }}
+                <a href="{{ route('recipes', ['ingredient_template_id' => $item->template->id]) }}">
+                    <i class="fa-solid fa-scroll" @popper(Pokaż przepisy z tym składnikiem)></i>
+                </a>
+            </li>
             @endforeach
         </ul>
         <x-a href="{{ route('ingredients') }}">Przeglądaj składniki</x-a>

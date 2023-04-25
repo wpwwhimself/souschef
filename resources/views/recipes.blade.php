@@ -7,6 +7,9 @@
         <h1>
             <i class="fa-solid fa-scroll"></i>
             Lista przepisów
+            @if ($ingredient)
+            zawierających {{ $ingredient->name }}
+            @endif
         </h1>
     </div>
 

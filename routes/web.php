@@ -45,7 +45,7 @@ Route::middleware("auth")->group(function(){
     });
 
     Route::controller(RecipeController::class)->group(function(){
-        Route::get("/recipes", "recipes")->name("recipes");
+        Route::get("/recipes/{ingredient_template_id?}", "recipes")->name("recipes");
         Route::get("/recipes/view/{id}", "recipe")->name("recipe-view");
         Route::get("/recipes/add", "add")->name("recipe-add");
         Route::get("/recipes/mod/{id}", "mod")->name("recipe-mod");
