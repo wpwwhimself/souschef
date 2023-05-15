@@ -116,9 +116,13 @@ class RecipeController extends Controller
                 if($ingredients_to_sub_from[$i]->template->unit == "JNO"){
                     switch($amount_left){
                         case 1: 
-                            $ingredients_to_sub_from[$i]->amount = 0; break;
+                            $ingredients_to_sub_from[$i]->amount = floor($ingredients_to_sub_from[$i]->amount); break;
                         case 0.75:
-                            $ingredients_to_sub_from[$i]->amount = ($ingredients_to_sub_from[$i]->amount > 0.25) ? 0.25 : 0; break;
+                            $ingredients_to_sub_from[$i]->amount =
+                                ($ingredients_to_sub_from[$i]->amount - floor($ingredients_to_sub_from[$i]->amount) > 0.25)
+                                ? floor($ingredients_to_sub_from[$i]->amount) + 0.25
+                                : floor($ingredients_to_sub_from[$i]->amount);
+                                break;
                         default:
                     }
                 }else{
