@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\DB;
 
 class RecipeController extends Controller
 {
-    function recipes($ingredient_template_id = null){
+    function recipes(Request $rq){
         $recipes = Recipe::orderBy("name");
+        $ingredient_template_id = $rq->ingredient_template_id;
         $ingredient = IngredientTemplate::find($ingredient_template_id);
         if($ingredient){
             $recipes = $recipes->whereHas("ingredients", function($q) use ($ingredient_template_id){
@@ -115,7 +116,7 @@ class RecipeController extends Controller
             while($amount_left > 0){
                 if($ingredients_to_sub_from[$i]->template->unit == "JNO"){
                     switch($amount_left){
-                        case 1: 
+                        case 1:
                             $ingredients_to_sub_from[$i]->amount = floor($ingredients_to_sub_from[$i]->amount); break;
                         case 0.75:
                             $ingredients_to_sub_from[$i]->amount =
@@ -131,7 +132,7 @@ class RecipeController extends Controller
                 }
                 $ingredients_to_sub_from[$i]->save();
                 app("App\Http\Controllers\HomeController")->ingredientsCleanup();
-                
+
                 $amount_left -= ($ingredients_to_sub_from[$i]->template->unit == "JNO") ? $amount_left : $current_amount_to_sub;
                 $i++;
             }

@@ -34,24 +34,26 @@ Route::middleware("auth")->group(function(){
             Route::get("/$name", $name)->name($name);
         }
         Route::post("/ingredients/add", "ingredientAdd")->name("ingredient-add");
-        
+
         Route::get("/ingredients/templates", "ingredientTemplates")->name("ingredient-templates");
         Route::post("/ingredients/templates/add", "ingredientTemplateAdd")->name("ingredient-template-add");
         Route::get("/ingredients/templates/delete/{id?}", "ingredientTemplateDelete")->name("ingredient-template-delete");
-        
+
         Route::get("/home", function(){
             return redirect()->route("dashboard");
         });
     });
 
     Route::controller(RecipeController::class)->group(function(){
-        Route::get("/recipes/{ingredient_template_id?}", "recipes")->name("recipes");
-        Route::get("/recipes/view/{id}", "recipe")->name("recipe-view");
-        Route::get("/recipes/add", "add")->name("recipe-add");
-        Route::get("/recipes/mod/{id}", "mod")->name("recipe-mod");
-        Route::post("/recipes/process", "process")->name("recipe-process");
+        Route::prefix("recipes")->group(function(){
+            Route::get("/", "recipes")->name("recipes");
+            Route::get("/view/{id}", "recipe")->name("recipe-view");
+            Route::get("/add", "add")->name("recipe-add");
+            Route::get("/mod/{id}", "mod")->name("recipe-mod");
+            Route::post("/process", "process")->name("recipe-process");
 
-        Route::post("/recipes/clear/{id}", "clear")->name("recipe-clear");
+            Route::post("/clear/{id}", "clear")->name("recipe-clear");
+        });
     });
 });
 
