@@ -18,6 +18,8 @@
     @csrf
     <x-input type="text" name="name" label="Kto gotuje?" />
     <x-input type="password" name="password" label="Hasło" />
+    <x-input type="checkbox" name="remember_box" label="Zapamiętaj mnie" />
+    <input type="hidden" name="remember" id="remember" value="0" />
     @if ($errors->any())
     <span class="error">
     @foreach ($errors->all() as $error)
@@ -27,4 +29,9 @@
     @endif
     <x-button action="submit" icon="forward" label="Potwierdź" />
 </form>
+<script defer>
+document.getElementById("remember_box").addEventListener("change", (event) => {
+    document.getElementById("remember").value = event.target.checked;
+});
+</script>
 @endsection
